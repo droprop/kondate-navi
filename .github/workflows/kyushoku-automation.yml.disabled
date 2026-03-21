@@ -1,0 +1,114 @@
+name: Kyushoku Automation Pipeline
+
+on:
+  # 定期実行：毎月20日と25日の 日本時間 深夜2時（UTC 17:00）
+  schedule:
+    - cron: '0 17 20,25 * *'
+  # 手動実行：GitHub UI から好きな年月を指定していつでも実行可能
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Target Year (e.g. 2026)'
+        required: false
+      month:
+        description: 'Target Month (1-12)'
+        required: false
+  # PRマージ検知：人間がデータを確認してMergeした時にキックされるデプロイジョブ用
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  # =========================================================
+  # 1. 毎月の自動実行：PDF取得〜JSON生成〜PR作成
+  # =========================================================
+  generate-and-pr:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install System Dependencies for OpenCV and PyMuPDF
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-glx poppler-utils
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: Authenticate to Google Cloud (Vertex AI)
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Run Master Pipeline
+        run: |
+          if [ -n "${{ github.event.inputs.year }}" ] && [ -n "${{ github.event.inputs.month }}" ]; then
+            python src/run_pipeline.py --year ${{ github.event.inputs.year }} --month ${{ github.event.inputs.month }}
+          else
+            python src/run_pipeline.py
+          fi
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
+
+      - name: Create Pull Request with Generated AI Data
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "🤖 [Auto] 献立更新: 新しい給食データが生成されました"
+          branch: "auto-update-menu"
+          title: "🤖 [自動生成] 次月の給食献立データ（承認待機）"
+          body: |
+            ## 自動更新レポート
+            AIによる献立の文字起こしとJSONデータ生成が完了しました！
+            
+            **確認と承認手順**:
+            1. 「**Files changed**」タブを開き、AIの文字起こしに不自然な点（みぞれ汁👉みそ汁などの誤読）がないか確認してください。
+            2. 問題なければこのPull Requestを **Merge（承認）** してください。
+            
+            ※Merge後、別の自動アクションが走り、Firebase本番へのアップロードが行われます🚀
+          labels: "automated-data-update"
+
+  # =========================================================
+  # 2. 手動承認後の実行：Firebase Storageへ本番デプロイ
+  # =========================================================
+  deploy-to-firebase:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'automated-data-update')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Firebase Admin
+        run: pip install firebase-admin
+
+      - name: Authenticate to Google Cloud (Firebase)
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Upload to Firebase Storage
+        run: |
+          # data/ フォルダ内で更新日時が一番新しいJSONファイル (all_menus以外) を見つけてアップロード
+          TARGET_FILE=$(ls -t data/ | grep '\.json' | grep -v 'all_menus' | head -n 1)
+          echo "Uploading data/${TARGET_FILE} to Firebase..."
+          python src/upload_to_firebase.py "data/${TARGET_FILE}"
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}

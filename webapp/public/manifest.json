@@ -1,0 +1,17 @@
+{
+  "name": "こんだてナビ | 浦安市",
+  "short_name": "こんだてナビ",
+  "description": "浦安市の学校給食献立をスマートにチェック",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

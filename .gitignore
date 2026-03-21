@@ -1,0 +1,43 @@
+webapp/node_modules/
+webapp/.next/
+webapp/out/
+webapp/build/
+webapp/.env*.local
+webapp/.env
+
+# Python Environment
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+logs/
+
+# Secrets
+*.pem
+credentials.json
+key.json
+.firebase/
+
+# IDE
+.vscode/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+webapp/tsconfig.tsbuildinfo
+
+# Misc
+.DS_Store
+tmp/
+results_backup/
+transcript_log.txt
+
+# Pipeline Data
+downloads/
+images/
+# (Only `results/` and `data/` are committed to preserve JSON history)

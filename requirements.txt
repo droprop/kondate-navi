@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+PyMuPDF
+google-genai
+playwright
+pydantic
+firebase-admin
