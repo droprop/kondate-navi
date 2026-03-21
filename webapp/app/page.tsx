@@ -145,6 +145,8 @@ export default function Home() {
         } catch (e) {
           console.error("Cache parse error", e);
         }
+        // ★ SWRの要：キャッシュがあれば、裏側での通信を待たずに即座にローディングを解除して画面を見せる！
+        setLoading(false);
       } else {
         // キャッシュがない場合のみローディングUIを出す
         setLoading(true);
