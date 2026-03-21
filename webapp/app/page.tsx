@@ -150,16 +150,12 @@ export default function Home() {
         setLoading(true);
       }
 
-      // 2. 【裏側更新】裏で最新のデータを必ず取りに行く（ファイルが差し替えられていれば検知可能）
+      // 2. 【裏側更新】裏で最新のデータを必ず取りに行く
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_MENU_BASE_URL || '/data';
+        const dataUrl = `/data/${cacheKey}.json`;
         
-        let dataUrl = `${baseUrl}/${cacheKey}.json`;
-        if (baseUrl.includes('firebasestorage.googleapis.com')) {
-          dataUrl = `${baseUrl}${cacheKey}.json?alt=media`;
-        }
-
-        const res = await fetch(dataUrl, { cache: 'no-store' });
+        // 外部StorageAPIを解雇し、自身の爆速Edge CDNパスから直接取得
+        const res = await fetch(dataUrl);
         
         if (!res.ok) {
           setMenusCache(prev => ({ ...prev, [cacheKey]: [] }));

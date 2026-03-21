@@ -81,17 +81,27 @@ def main():
         logger.error("Failed to aggregate final data JSON.")
         sys.exit(1)
 
-    # Step 4: Upload to Firebase
-    logger.info(f"[Step 4] Deploying to Firebase Storage...")
-    target_json = f"data/{target_year}_{target_month}.json"
-    upload_cmd = [sys.executable, "src/upload_to_firebase.py", target_json]
-    result = subprocess.run(upload_cmd)
+    # Step 4: Full Application Build & Deploy (Edge CDN Architecture)
+    logger.info(f"[Step 4] Copying data and Deploying Full App to Firebase Hosting...")
+    
+    # Webアプリのpublic内にdataフォルダを作ってJSONをすべてコピー
+    public_data_dir = os.path.join(BASE_DIR, "webapp", "public", "data")
+    os.makedirs(public_data_dir, exist_ok=True)
+    
+    # Use shell copy to move generated data into Next.js static directory
+    copy_cmd = 'copy /Y "data\\*.json" "webapp\\public\\data\\"'
+    subprocess.run(copy_cmd, shell=True)
+
+    # Build and Deploy
+    deploy_cmd = 'cd webapp && npm run build && npx firebase deploy --only hosting'
+    result = subprocess.run(deploy_cmd, shell=True)
+
     if result.returncode != 0:
-        logger.error(f"Failed to upload {target_json} to Firebase.")
+        logger.error("Failed to build or deploy the web application.")
         sys.exit(1)
 
     logger.info(f"=== Pipeline Processing Complete ===")
-    logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated and deployed to Firebase.")
+    logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully bundled and edge-deployed to Firebase Hosting.")
 
 if __name__ == "__main__":
     main()
