@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
+import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 
 const outfit = Outfit({
@@ -50,11 +51,12 @@ export default function RootLayout({
   return (
     <html lang="ja" className={outfit.variable}>
       <head>
-        <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
+        <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossOrigin="anonymous" />
       </head>
       <body>
         {children}
       </body>
+      <GoogleAnalytics gaId="G-WJG0XFQ7X8" />
     </html>
   );
 }
