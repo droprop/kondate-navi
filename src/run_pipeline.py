@@ -58,7 +58,7 @@ def main():
     if result.returncode != 0:
         logger.error(f"Failed to download PDF for {target_year}/{target_month}.")
         logger.info("The menu might not be published yet. Safely aborting pipeline to try again tomorrow.")
-        sys.exit(0)
+        sys.exit(1)
 
     # Step 2: Transcribe PDF into JSON
     logger.info(f"[Step 2] Triggering Vertex AI Audio/Image Analysis...")
@@ -75,7 +75,11 @@ def main():
 
     # Step 3: Generate and aggregate data
     logger.info(f"[Step 3] Dispatching Data Aggregator...")
-    generate_cmd = [sys.executable, "src/generate_data.py"]
+    generate_cmd = [
+        sys.executable, "src/generate_data.py",
+        "--year", str(target_year),
+        "--month", str(target_month)
+    ]
     result = subprocess.run(generate_cmd)
     if result.returncode != 0:
         logger.error("Failed to aggregate final data JSON.")

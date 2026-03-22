@@ -139,4 +139,8 @@ if __name__ == "__main__":
     parser.add_argument("year", type=int, nargs="?", default=None)
     parser.add_argument("month", type=int, nargs="?", default=None)
     args = parser.parse_args()
-    download_pdfs(args.year, args.month)
+    files = download_pdfs(args.year, args.month)
+    if not files:
+        # sys.exit(1) により、呼び出し元の run_pipeline.py 側に異常を知らせる
+        logger.error("該当する献立PDFが見つかりませんでした。プログラムを異常終了します。")
+        sys.exit(1)
