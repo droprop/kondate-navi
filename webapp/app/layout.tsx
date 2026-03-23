@@ -14,8 +14,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kondate-navi.web.app"),
-  title: "こんだてナビ | 浦安市立学校給食（非公式）",
-  description: "浦安市の学校給食献立をスマートにチェック。毎月のメニューや栄養素、お箸情報をサッと確認できるPWA対応アプリです。※非公式・個人開発",
+  title: "浦安市の小学校 給食・献立ナビ (非公式)",
+  description: "浦安市の小学校の給食献立をスマホで簡単チェック！第一調理場・第二調理場に対応。毎日のメニュー、お箸の必要有無、栄養素がすぐわかる便利な非公式アプリです。",
+  keywords: ["浦安市", "給食", "献立", "小学校", "メニュー", "千鳥学校給食センター"],
   manifest: "https://kondate-navi.web.app/manifest.json",
   appleWebApp: {
     capable: true,
@@ -23,22 +24,23 @@ export const metadata: Metadata = {
     title: "こんだてナビ",
   },
   openGraph: {
-    title: "こんだてナビ | 浦安市立学校給食",
-    description: "スマホでササッと浦安市の給食献立をチェックできる便利なアプリです。※非公式",
+    title: "浦安市の小学校 給食・献立ナビ",
+    description: "今日の給食はなにかな？浦安市の小学校の献立をスマホで簡単チェック！第一・第二調理場対応の非公式アプリ。",
     url: "https://kondate-navi.web.app",
-    siteName: "こんだてナビ",
+    siteName: "浦安市 給食 こんだてナビ",
     locale: "ja_JP",
     type: "website",
     images: [{
       url: "https://kondate-navi.web.app/opengraph-image.png",
       width: 1200,
       height: 630,
+      alt: "浦安市の小学校 給食・献立ナビ",
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "こんだてナビ | 浦安市立学校給食",
-    description: "スマホでササッと給食献立をチェック！",
+    title: "浦安市の小学校 給食・献立ナビ",
+    description: "今日の給食はなにかな？浦安市の小学校の給食献立をスマホで簡単チェック！",
     images: ["https://kondate-navi.web.app/opengraph-image.png"],
   }
 };

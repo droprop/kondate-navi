@@ -279,7 +279,10 @@ export default function Home() {
             <div className="bg-orange-100 p-1.5 rounded-lg text-orange-600">
               <UtensilsCrossed size={18} />
             </div>
-            <h1 className="text-base font-bold text-stone-700 tracking-tight">こんだてナビ</h1>
+            <h1 className="text-base font-bold text-stone-700 tracking-tight flex items-center">
+              <span className="sr-only">浦安市の小学校 給食・献立メニュー一覧 </span>
+              こんだてナビ
+            </h1>
           </div>
           <button 
             onClick={() => setIsSettingOpen(true)} 
