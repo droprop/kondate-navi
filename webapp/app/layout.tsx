@@ -14,6 +14,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kondate-navi.web.app"),
+  alternates: { canonical: '/' },
   title: "浦安市の小学校 給食・献立ナビ (非公式)",
   description: "浦安市の小学校の給食献立をスマホで簡単チェック！第一調理場・第二調理場に対応。毎日のメニュー、お箸の必要有無、栄養素がすぐわかる便利な非公式アプリです。",
   keywords: ["浦安市", "給食", "献立", "小学校", "メニュー", "千鳥学校給食センター"],
