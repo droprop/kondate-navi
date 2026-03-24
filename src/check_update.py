@@ -96,6 +96,7 @@ def send_line_notification(token, user_id, message):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--force", action="store_true", help="フォルダが存在しても強制的に通知を送る")
+    parser.add_argument("--test-line", action="store_true", help="強制的にテスト通知をLINEへ送る")
     args = parser.parse_args()
 
     # 環境変数または直接指定からトークン等を取得
@@ -116,14 +117,22 @@ def main():
 
     logger.info(f"チェック開始: {target_year}年{target_month}月分の献立を探しています...")
     
-    # すでにダウンロード済み（＝処理済み）の月なら通知をスキップする
-    # ※--force がついている場合はスキップしない
-    target_dir = os.path.join(BASE_DIR, "downloads", f"{target_year:04d}{target_month:02d}")
-    if not args.force and os.path.exists(target_dir):
-        logger.info(f"スキップ: 既にフォルダ {target_dir} が存在するため、通知済みと判断しました。")
-        return
+    found = False
+    label = None
 
-    found, label = check_next_month_menu(target_year, target_month)
+    if args.test_line:
+        logger.info("テストモード: サイトチェックをスキップしてテストメッセージを送信します。")
+        found = True
+        label = f"テスト通知（{target_year}年{target_month}月分想定）"
+    else:
+        # すでにダウンロード済み（＝処理済み）の月なら通知をスキップする
+        # ※--force がついている場合はスキップしない
+        target_dir = os.path.join(BASE_DIR, "downloads", f"{target_year:04d}{target_month:02d}")
+        if not args.force and os.path.exists(target_dir):
+            logger.info(f"スキップ: 既にフォルダ {target_dir} が存在するため、通知済みと判断しました。")
+            return
+
+        found, label = check_next_month_menu(target_year, target_month)
     
     if found:
         logger.info(f"【発見】{label} が公開されています！")
