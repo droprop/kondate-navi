@@ -1,5 +1,8 @@
 name: Check PDF Update
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   schedule:
     - cron: '0 0 * * *' # 毎日 00:00 UTC (日本時間 09:00) に実行
@@ -19,8 +22,6 @@ on:
 jobs:
   check-pdf:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
