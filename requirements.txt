@@ -5,3 +5,5 @@ google-genai
 playwright
 pydantic
 firebase-admin
+opencv-python
+numpy
