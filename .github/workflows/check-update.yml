@@ -3,7 +3,13 @@ name: Check PDF Update
 on:
   schedule:
     - cron: '0 0 * * *' # 毎日 00:00 UTC (日本時間 09:00) に実行
-  workflow_dispatch: # 手動実行も可能にする
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'フォルダが存在しても強制的に通知を送る'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   check-pdf:
@@ -26,4 +32,10 @@ jobs:
         env:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
-        run: python src/check_update.py
+        run: |
+          FORCE_FLAG="${{ github.event.inputs.force }}"
+          if [ "$FORCE_FLAG" = "true" ]; then
+            python src/check_update.py --force
+          else
+            python src/check_update.py
+          fi

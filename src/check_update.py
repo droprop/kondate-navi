@@ -4,6 +4,7 @@ import re
 import datetime
 import requests
 import logging
+import argparse
 from bs4 import BeautifulSoup
 
 # ターミナルの文字化け対策
@@ -93,13 +94,16 @@ def send_line_notification(token, user_id, message):
         return False
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force", action="store_true", help="フォルダが存在しても強制的に通知を送る")
+    args = parser.parse_args()
+
     # 環境変数または直接指定からトークン等を取得
     line_token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
     line_user_id = os.environ.get("LINE_USER_ID")
 
     if not line_token or not line_user_id:
         logger.error("環境変数 LINE_CHANNEL_ACCESS_TOKEN または LINE_USER_ID が設定されていません。")
-        # ローカルテスト用に引数でも受け取れるようにする場合はここで調整
         sys.exit(1)
 
     # ターゲット月の計算（基本は翌月）
@@ -113,8 +117,9 @@ def main():
     logger.info(f"チェック開始: {target_year}年{target_month}月分の献立を探しています...")
     
     # すでにダウンロード済み（＝処理済み）の月なら通知をスキップする
+    # ※--force がついている場合はスキップしない
     target_dir = os.path.join(BASE_DIR, "downloads", f"{target_year:04d}{target_month:02d}")
-    if os.path.exists(target_dir):
+    if not args.force and os.path.exists(target_dir):
         logger.info(f"スキップ: 既にフォルダ {target_dir} が存在するため、通知済みと判断しました。")
         return
 
@@ -123,7 +128,7 @@ def main():
     if found:
         logger.info(f"【発見】{label} が公開されています！")
         # メッセージの見栄えを少し調整
-        msg = f"🔔 【献立ナビ】更新のお知らせ\n\n浦安市公式サイトにて「{label}」の公開を確認しました！\n\nお手すきの際に、以下のコマンドを実行してアプリを更新してください：\n\npython src/run_pipeline.py"
+        msg = f"🔔 【献立ナビ】更新されました！\n\n浦安市公式サイトにて「{label}」の公開を確認しました！\n\nお手すきの際に、以下のコマンドを実行してアプリを更新してください：\n\npython src/run_pipeline.py"
         send_line_notification(line_token, line_user_id, msg)
     else:
         logger.info("まだ公開されていませんでした。")
