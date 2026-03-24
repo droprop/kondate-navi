@@ -35,6 +35,7 @@ def main():
     parser = argparse.ArgumentParser(description="Master pipeline for downloading, parsing, and aggregating the school lunch menu.")
     parser.add_argument("--year", type=int, help="Target year (e.g. 2026)")
     parser.add_argument("--month", type=int, help="Target month (1-12)")
+    parser.add_argument("--push", action="store_true", help="Git commit & push automatically after success")
     args = parser.parse_args()
 
     now = datetime.now()
@@ -96,6 +97,22 @@ def main():
 
     logger.info(f"=== Pipeline Processing Complete ===")
     logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated and deployed to Firebase.")
+
+    # Step 5: Git Sync (Optional)
+    if args.push:
+        logger.info(f"[Step 5] Synchronizing with GitHub Repository...")
+        try:
+            # Stage changes
+            subprocess.run(["git", "add", "downloads", "results", "data"], check=True)
+            # Commit
+            commit_msg = f"auto: update lunch data for {target_year}-{target_month}"
+            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            # Push
+            subprocess.run(["git", "push", "origin", "main"], check=True)
+            logger.info("Successfully pushed updates to GitHub.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Git synchronization failed: {e}")
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()
