@@ -5,7 +5,7 @@ env:
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 毎日 00:00 UTC (日本時間 09:00) に実行
+    - cron: '0 22 * * *' # 毎日 22:00 UTC (日本時間 07:00) に実行
   workflow_dispatch:
     inputs:
       force:

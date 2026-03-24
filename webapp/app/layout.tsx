@@ -58,6 +58,28 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "こんだてナビ",
+              "operatingSystem": "Web",
+              "applicationCategory": "EducationalApplication",
+              "description": "浦安市の小学校の給食献立をスマホで簡単に確認できるアプリ。AIによる献立解析機能を搭載。",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "JPY"
+              },
+              "author": {
+                "@type": "Organization",
+                "name": "こんだてナビ プロジェクト"
+              }
+            })
+          }}
+        />
       </body>
       <GoogleAnalytics gaId="G-WJG0XFQ7X8" />
     </html>
