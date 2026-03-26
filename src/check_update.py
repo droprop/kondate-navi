@@ -115,13 +115,14 @@ def main():
     ]
 
     for year, month in check_targets:
-        target_dir = os.path.join(BASE_DIR, "downloads", f"{year:04d}{month:02d}")
+        # 判定基準をGit管理対象の data/*.json に変更 (downloads/はgitignoreされているため)
+        target_file = os.path.join(BASE_DIR, "data", f"{year}_{month}.json")
         
-        # すでにダウンロード済み（＝処理済み）の月なら次の候補へ
+        # すでにデータが存在する月なら次の候補へ
         # ※--force がついている場合はスキップしない
-        if not args.force and os.path.exists(target_dir):
+        if not args.force and os.path.exists(target_file):
             if not args.test_line:
-                logger.info(f"スキップ: {year}年{month}月は既にデータが存在するため、チェック不要です。")
+                logger.info(f"スキップ: {year}年{month}月は既に {target_file} が存在するため、チェック不要です。")
                 continue
 
         logger.info(f"チェック開始: {year}年{month}月分の献立を探しています...")
