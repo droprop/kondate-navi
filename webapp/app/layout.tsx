@@ -15,9 +15,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://kondate-navi.web.app"),
   alternates: { canonical: '/' },
-  title: "浦安市の小学校 給食・献立ナビ (非公式)",
-  description: "浦安市の小学校の給食献立をスマホで簡単チェック！第一調理場・第二調理場に対応。毎日のメニュー、お箸の必要有無、栄養素がすぐわかる便利な非公式アプリです。",
+  title: "浦安市 小学校 給食・こんだてナビ",
+  description: "浦安市の小学校（第一・第二調理場）の給食献立をスマホでさっと確認。公開された献立表を AI 解析で分かりやすく表示する、保護者による非公式の献立予定表アプリです。毎日のメニューやお箸の要否をすぐにチェックできます。",
   keywords: ["浦安市", "給食", "献立", "小学校", "メニュー", "千鳥学校給食センター"],
+  applicationName: "こんだてナビ",
   manifest: "https://kondate-navi.web.app/manifest.json",
   appleWebApp: {
     capable: true,
@@ -25,22 +26,22 @@ export const metadata: Metadata = {
     title: "こんだてナビ",
   },
   openGraph: {
-    title: "浦安市の小学校 給食・献立ナビ",
-    description: "今日の給食はなにかな？浦安市の小学校の献立をスマホで簡単チェック！第一・第二調理場対応の非公式アプリ。",
+    title: "浦安市 小学校 給食・こんだてナビ",
+    description: "今日の給食はなにかな？浦安市の小学校の献立をスマホで簡単チェック。第一・第二調理場対応の献立予定表アプリ。",
     url: "https://kondate-navi.web.app",
-    siteName: "浦安市 給食 こんだてナビ",
+    siteName: "こんだてナビ",
     locale: "ja_JP",
     type: "website",
     images: [{
       url: "https://kondate-navi.web.app/opengraph-image.png",
       width: 1200,
       height: 630,
-      alt: "浦安市の小学校 給食・献立ナビ",
+      alt: "浦安市 小学校 給食・こんだてナビ",
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "浦安市の小学校 給食・献立ナビ",
+    title: "浦安市 小学校 給食・こんだてナビ",
     description: "今日の給食はなにかな？浦安市の小学校の給食献立をスマホで簡単チェック！",
     images: ["https://kondate-navi.web.app/opengraph-image.png"],
   }
@@ -61,23 +62,32 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "こんだてナビ",
-              "operatingSystem": "Web",
-              "applicationCategory": "EducationalApplication",
-              "description": "浦安市の小学校の給食献立をスマホで簡単に確認できるアプリ。AIによる献立解析機能を搭載。",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "JPY"
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "こんだてナビ",
+                "alternateName": ["浦安市 小学校 給食・こんだてナビ"],
+                "url": "https://kondate-navi.web.app"
               },
-              "author": {
-                "@type": "Organization",
-                "name": "こんだてナビ プロジェクト"
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "こんだてナビ",
+                "operatingSystem": "Web",
+                "applicationCategory": "EducationalApplication",
+                "description": "浦安市の小学校の給食献立をスマホで見やすく表示。AIによる献立解析機能を搭載。",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "JPY"
+                },
+                "author": {
+                  "@type": "Organization",
+                  "name": "こんだてナビ プロジェクト"
+                }
               }
-            })
+            ])
           }}
         />
       </body>
