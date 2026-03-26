@@ -107,40 +107,43 @@ def main():
         logger.error("環境変数 LINE_CHANNEL_ACCESS_TOKEN または LINE_USER_ID が設定されていません。")
         sys.exit(1)
 
-    # ターゲット月の計算（基本は翌月）
+    # ターゲット候補の作成（当月と翌月）
     now = datetime.datetime.now()
-    target_month = now.month + 1
-    target_year = now.year
-    if target_month > 12:
-        target_month = 1
-        target_year += 1
+    check_targets = [
+        (now.year, now.month),
+        (now.year + (1 if now.month == 12 else 0), 1 if now.month == 12 else now.month + 1)
+    ]
 
-    logger.info(f"チェック開始: {target_year}年{target_month}月分の献立を探しています...")
-    
-    found = False
-    label = None
-
-    if args.test_line:
-        logger.info("テストモード: サイトチェックをスキップしてテストメッセージを送信します。")
-        found = True
-        label = f"テスト通知（{target_year}年{target_month}月分想定）"
-    else:
-        # すでにダウンロード済み（＝処理済み）の月なら通知をスキップする
+    for year, month in check_targets:
+        target_dir = os.path.join(BASE_DIR, "downloads", f"{year:04d}{month:02d}")
+        
+        # すでにダウンロード済み（＝処理済み）の月なら次の候補へ
         # ※--force がついている場合はスキップしない
-        target_dir = os.path.join(BASE_DIR, "downloads", f"{target_year:04d}{target_month:02d}")
         if not args.force and os.path.exists(target_dir):
-            logger.info(f"スキップ: 既にフォルダ {target_dir} が存在するため、通知済みと判断しました。")
-            return
+            if not args.test_line:
+                logger.info(f"スキップ: {year}年{month}月は既にデータが存在するため、チェック不要です。")
+                continue
 
-        found, label = check_next_month_menu(target_year, target_month)
-    
-    if found:
-        logger.info(f"【発見】{label} が公開されています！")
-        # メッセージの見栄えを少し調整
-        msg = f"🔔 【献立ナビ】更新されました！\n\n浦安市公式サイトにて「{label}」の公開を確認しました！\n\nお手すきの際に、以下のコマンドを実行してアプリを更新してください：\n\npython src/run_pipeline.py"
-        send_line_notification(line_token, line_user_id, msg)
-    else:
-        logger.info("まだ公開されていませんでした。")
+        logger.info(f"チェック開始: {year}年{month}月分の献立を探しています...")
+        
+        found = False
+        label = None
+
+        if args.test_line:
+            logger.info("テストモード: サイトチェックをスキップしてテストメッセージを送信します。")
+            found = True
+            label = f"テスト通知（{year}年{month}月分想定）"
+        else:
+            found, label = check_next_month_menu(year, month)
+        
+        if found:
+            logger.info(f"【発見】{label} が公開されています！")
+            # メッセージの見栄えを少し調整
+            msg = f"🔔 【献立ナビ】更新されました！\n\n浦安市公式サイトにて「{label}」の公開を確認しました！\n\nお手すきの際に、以下のコマンドを実行してアプリを更新してください：\n\npython src/run_pipeline.py"
+            send_line_notification(line_token, line_user_id, msg)
+            break # 1つ見つかったらそこで終了（1回の実行で1つの通知に抑える）
+        else:
+            logger.info(f"{year}年{month}月分はまだ公開されていませんでした。")
 
 if __name__ == "__main__":
     main()
