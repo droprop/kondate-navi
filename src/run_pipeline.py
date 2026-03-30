@@ -86,17 +86,8 @@ def main():
         logger.error("Failed to aggregate final data JSON.")
         sys.exit(1)
 
-    # Step 4: Upload to Firebase
-    logger.info(f"[Step 4] Deploying to Firebase Storage...")
-    target_json = f"data/{target_year}_{target_month}.json"
-    upload_cmd = [sys.executable, "src/upload_to_firebase.py", target_json]
-    result = subprocess.run(upload_cmd)
-    if result.returncode != 0:
-        logger.error(f"Failed to upload {target_json} to Firebase.")
-        sys.exit(1)
-
     logger.info(f"=== Pipeline Processing Complete ===")
-    logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated and deployed to Firebase.")
+    logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated.")
 
     # Step 5: Git Sync (Optional)
     if args.push:
