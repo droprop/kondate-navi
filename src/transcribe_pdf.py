@@ -124,13 +124,14 @@ def detect_chopsticks_mapping(pdf_path: Path) -> dict:
                 text_center_y_300dpi = ((y0 + y1) / 2) * zoom
                 text_center_x_300dpi = ((x0 + x1) / 2) * zoom
                 
-                has_circle = False
-                for cx, cy, cr in circles:
-                    dist = np.sqrt((cx - text_center_x_300dpi)**2 + (cy - text_center_y_300dpi)**2)
-                    if dist < 60: 
-                        has_circle = True
-                        break
-                date_needs_chopsticks[day] = has_circle
+                if day not in date_needs_chopsticks:
+                    has_circle = False
+                    for cx, cy, cr in circles:
+                        dist = np.sqrt((cx - text_center_x_300dpi)**2 + (cy - text_center_y_300dpi)**2)
+                        if dist < 60: 
+                            has_circle = True
+                            break
+                    date_needs_chopsticks[day] = has_circle
                 
     logger.info(f"[{pdf_path.name}] 画像解析完了: {len(date_needs_chopsticks)}日分のお箸フラグを抽出しました。")
     return date_needs_chopsticks
