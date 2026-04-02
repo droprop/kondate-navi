@@ -44,3 +44,4 @@ raw_results/
 results/
 results_bak/
 results_backup/
+*.bak 
