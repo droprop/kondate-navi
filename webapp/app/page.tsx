@@ -13,81 +13,45 @@ import {
   Info
 } from 'lucide-react';
 
-const SCHOOL_MAPPING: Record<string, { facility: string, center: string }> = {
-  "浦安小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "南小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "北部小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "美浜南小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "東小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "舞浜小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "美浜北小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "入船小学校": { facility: "浦安市千鳥学校給食センター 第一調理場", center: "第一調理場" },
-  "見明川小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "富岡小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "日の出小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "明海小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "高洲小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "日の出南小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "明海南小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "高洲北小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-  "東野小学校": { facility: "浦安市千鳥学校給食センター 第二調理場", center: "第二調理場" },
-};
-
-const PRIORITIZED_MAPPING: [string, string][] = [
-  // 1. 飲み物
-  ["牛乳", "🥛"], ["ミルメーク", "🥛"], ["ヨーグルト", "🥛"],
-
-  // 2. 麺類 (「焼きそば」等が下位の「焼」に吸われないよう上位に)
-  ["スパゲティ", "🍝"], ["スパゲッティ", "🍝"], ["パスタ", "🍝"],
-  ["うどん", "🍜"], ["ラーメン", "🍜"], ["焼きそば", "🍜"], ["ちゃんぽん", "🍜"], ["ほうとう", "🍜"], ["めん", "🍜"], ["麺", "🍜"],
-
-  // 3. 完成料理・丼・カレー
-  ["カレー", "🍛"], ["ハヤシ", "🍛"], ["丼", "🍚"], ["どん", "🍚"], ["親子", "🍚"], ["ピラフ", "🍚"], ["ビビンバ", "🍚"], ["チャーハン", "🍚"],
-
-  // 4. 汁物
-  ["スープ", "🍲"], ["汁", "🍲"], ["ワンタン", "🍲"], ["シチュー", "🍲"], ["ポトフ", "🍲"], ["すいとん", "🍲"], ["椀", "🍲"],
-
-  // 5. デザート（お菓子・お餅などスイーツ系 ※パンや調理法より強いため最優先）
-  ["ゼリー", "🍮"], ["プリン", "🍮"], ["タルト", "🍮"], ["クレープ", "🍮"], ["ケーキ", "🍮"],
-  ["だんご", "🍡"], ["団子", "🍡"], ["餅", "🍡"], ["もち", "🍡"], ["おはぎ", "🍡"], ["大福", "🍡"], ["ぜんざい", "🍡"],
-  ["ポンチ", "🍎"], ["フルーツ", "🍎"],
-
-  // 6. メイン食材 (魚・肉・卵・チーズ)
-  ["魚", "🐟"], ["いわし", "🐟"], ["イワシ", "🐟"], ["さば", "🐟"], ["サバ", "🐟"], ["さわら", "🐟"], ["ししゃも", "🐟"], ["シシャモ", "🐟"], ["かつお", "🐟"], ["カツオ", "🐟"], ["鯛", "🐟"], ["たい", "🐟"], ["さんま", "🐟"], ["サンマ", "🐟"], ["めばる", "🐟"], ["いか", "🐟"], ["イカ", "🐟"], ["小魚", "🐟"], ["さけ", "🐟"], ["サケ", "🐟"], ["鮭", "🐟"], ["あじ", "🐟"], ["アジ", "🐟"], ["ます", "🐟"], ["マス", "🐟"], ["えび", "🐟"], ["エビ", "🐟"], ["マヒマヒ", "🐟"], ["メヒカリ", "🐟"], ["ニギス", "🐟"], ["ホキ", "🐟"], ["ほっけ", "🐟"], ["コノシロ", "🐟"], ["シーフード", "🐟"], ["ちくわ", "🐟"], ["かまぼこ", "🐟"], ["さんがやき", "🐟"],
-  ["肉", "🥩"], ["豚", "🥩"], ["牛", "🥩"], ["鶏", "🥩"], ["とり", "🥩"], ["チキン", "🥩"], ["ポーク", "🥩"], ["レバー", "🥩"], ["ハンバーグ", "🥩"], ["カツ", "🥩"], ["唐揚げ", "🥩"], ["から揚げ", "🥩"], ["とり天", "🥩"], ["コロッケ", "🥩"], ["マーボー", "🥩"], ["麻婆", "🥩"], ["餃子", "🥩"], ["ぎょうざ", "🥩"], ["シュウマイ", "🥩"], ["しゅうまい", "🥩"], ["春巻き", "🥩"], ["ウインナー", "🥩"], ["フランクフルト", "🥩"], ["プルコギ", "🥩"], ["すきやき", "🥩"],
-  ["卵", "🥚"], ["玉子", "🥚"], ["たまご", "🥚"], ["オムレツ", "🥚"],
-  ["チーズ", "🧀"], ["グラタン", "🧀"],
-
-  // 7. 主食 (ごはん・パン)
-  ["揚げパン", "🍞"], ["パン", "🍞"], ["コッペパン", "🍞"], ["食パン", "🍞"], ["ラスク", "🍞"],
-  ["ご飯", "🍚"], ["ごはん", "🍚"], ["麦ごはん", "🍚"], ["麦ご飯", "🍚"], ["赤飯", "🍚"],
-
-  // 8. 副菜 (サラダ・和え物・漬け物・野菜・豆)
-  ["サラダ", "🥗"], ["和え", "🥗"], ["あえ", "🥗"], ["マリネ", "🥗"], ["春雨", "🥗"], ["はるさめ", "🥗"], ["ナムル", "🥗"], ["バンバンジー", "🥗"], ["漬け", "🥗"],
-  ["納豆", "🥗"], ["豆腐", "🥗"], ["わかめ", "🥗"], ["ひじき", "🥗"], ["海苔", "🥗"], ["のり", "🥗"],
-  ["野菜", "🥗"], ["ポテト", "🥗"], ["大学", "🥗"],
-  ["豆", "🫘"], ["ビーンズ", "🫘"], ["大豆", "🫘"],
-
-  // 9. 調理法 (上記にマッチしなかった場合のセーフティーネット)
-  ["フライ", "🍤"], ["フリッター", "🍤"], ["天ぷら", "🍤"], ["揚げ", "🍤"],
-  ["煮", "🥣"],
-  ["炒め", "🍳"], ["焼", "🍳"],
-
-  // 10. 生の果物 (りんごパン等に誤爆しないよう「パンより下」の最後尾に配置)
-  ["りんご", "🍎"], ["みかん", "🍎"], ["いちご", "🍎"], ["桃", "🍎"], ["もも", "🍎"], ["バナナ", "🍎"], ["レモン", "🍎"], ["オレンジ", "🍎"],
-
-  // 11. その他
-  ["お祝い", "🎉"]
-];
-
-const getEmoji = (menuName: string) => {
-  for (const [key, emoji] of PRIORITIZED_MAPPING) {
-    if (menuName.includes(key)) {
-      return emoji;
-    }
+const SCHOOL_CATEGORIES = {
+  primary: {
+    label: "小学校",
+    icon: "🎒",
+    schools: [
+      { name: "浦安小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "南小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "北部小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "美浜南小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "東小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "舞浜小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "美浜北小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "入船小学校", facility: "浦安市千鳥学校給食センター 第一調理場" },
+      { name: "見明川小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "富岡小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "日の出小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "明海小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "高洲小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "日の出南小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "明海南小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "高洲北小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+      { name: "東野小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
+    ]
+  },
+  juniorHigh: {
+    label: "中学校",
+    icon: "🎓",
+    schools: [
+      { name: "浦安市内中学校すべて", facility: "浦安市千鳥学校給食センター 第三調理場" },
+    ]
   }
-  return "🍴";
 };
+
+const ALL_SCHOOLS = [...SCHOOL_CATEGORIES.primary.schools, ...SCHOOL_CATEGORIES.juniorHigh.schools];
+const SCHOOL_MAPPING: Record<string, { facility: string }> = Object.fromEntries(
+  ALL_SCHOOLS.map(s => [s.name, { facility: s.facility }])
+);
+
+
 
 interface DailyMenu {
   date: number;
@@ -280,7 +244,7 @@ export default function Home() {
               <UtensilsCrossed size={18} />
             </div>
             <h1 className="text-base font-bold text-stone-700 tracking-tight flex items-center">
-              <span className="sr-only">浦安市の小学校 給食・献立メニュー一覧 </span>
+              <span className="sr-only">浦安市 小・中学校 給食・献立メニュー一覧 </span>
               こんだてナビ
             </h1>
           </div>
@@ -403,29 +367,57 @@ export default function Home() {
                         <span className="text-[10px] font-black text-stone-300 uppercase tracking-widest">Menu List</span>
                       </div>
                       <ul className="divide-y divide-stone-50">
-                        {displayMenu.menu_items.map((item, i) => (
-                          <li key={i} className="px-5 py-2.5 flex items-center gap-3 active:bg-stone-50 transition">
-                            <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-xl shrink-0">
-                              {getEmoji(item)}
-                            </div>
-                            <span className="text-stone-800 font-bold text-base leading-snug">{item}</span>
-                          </li>
-                        ))}
+                        {[...displayMenu.menu_items].sort((a, b) => {
+                          if (a.startsWith('★') && !b.startsWith('★')) return -1;
+                          if (!a.startsWith('★') && b.startsWith('★')) return 1;
+                          return 0;
+                        }).map((item, i) => {
+                          const isMain = item.startsWith('★');
+                          let cleanStr = isMain ? item.substring(1).trim() : item.trim();
+                          
+                          // 最初に見つかる絵文字と文字を分離する
+                          // Gemini出力例: "🍞 シュガー揚げパン"
+                          const spaceIdx = cleanStr.indexOf(' ');
+                          let emoji = '🍴';
+                          let name = cleanStr;
+                          if (spaceIdx > 0 && spaceIdx <= 4) {
+                            emoji = cleanStr.substring(0, spaceIdx);
+                            name = cleanStr.substring(spaceIdx + 1);
+                          }
+                          
+                          return (
+                            <li key={i} className={`px-5 py-2.5 flex items-center gap-4 transition relative ${isMain ? 'bg-gradient-to-r from-orange-50/80 to-white' : 'active:bg-stone-50'}`}>
+                              {isMain && (
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-amber-300" />
+                              )}
+                              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm transition-transform duration-500 ${isMain ? 'bg-white ring-2 ring-orange-200 scale-105 shadow-orange-100' : 'bg-stone-50 border border-stone-100 grayscale-[0.2]'}`}>
+                                {emoji}
+                              </div>
+                              <div className="flex flex-col">
+                                <span className={`leading-snug ${isMain ? 'text-stone-900 font-extrabold text-base tracking-tight' : 'text-stone-700 font-bold text-base'}`}>
+                                  {name}
+                                </span>
+                              </div>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
 
 
                     {/* 栄養グリッド */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-white rounded-2xl p-3 border border-stone-100 shadow-sm flex items-center justify-between gap-1 overflow-x-auto custom-scrollbar">
                       {[
                         { label: 'エネルギー', val: displayMenu.nutrition.energy_kcal, unit: 'kcal', color: 'text-orange-500' },
                         { label: '塩分', val: displayMenu.nutrition.salt_g, unit: 'g', color: 'text-stone-700' },
-                        { label: 'タンパク質', val: displayMenu.nutrition.protein_g, unit: 'g', color: 'text-stone-700' },
+                        { label: 'タンパク', val: displayMenu.nutrition.protein_g, unit: 'g', color: 'text-stone-700' },
                         { label: '脂質', val: displayMenu.nutrition.fat_g, unit: 'g', color: 'text-stone-700' },
                       ].map((n, i) => (
-                        <div key={i} className="bg-white rounded-2xl p-4 border border-stone-100 shadow-sm flex flex-col items-center">
-                          <span className="text-[10px] font-bold text-stone-400 mb-1">{n.label}</span>
-                          <span className={`text-xl font-black ${n.color}`}>{n.val} <small className="text-[10px] font-bold">{n.unit}</small></span>
+                        <div key={i} className="flex flex-col items-center flex-1 min-w-[60px]">
+                          <span className="text-[9px] font-bold text-stone-400 whitespace-nowrap">{n.label}</span>
+                          <span className={`text-sm font-black ${n.color} whitespace-nowrap`}>
+                            {n.val} <small className="text-[8px] font-bold">{n.unit}</small>
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -510,7 +502,15 @@ export default function Home() {
                       </div>
                       <div className="flex-1">
                         <div className="text-sm font-bold text-stone-600 leading-snug line-clamp-2 group-active:text-orange-600">
-                          {m.menu_items.join(' / ')}
+                          {m.menu_items.map(item => {
+                            // 絵文字と★を除去してテキストのみを抽出
+                            let clean = item.replace('★', '').trim();
+                            const spaceIdx = clean.indexOf(' ');
+                            if (spaceIdx > 0 && spaceIdx <= 4) {
+                              return clean.substring(spaceIdx + 1);
+                            }
+                            return clean;
+                          }).join(' / ')}
                         </div>
                       </div>
                       {m.needs_chopsticks && <span className="text-xl drop-shadow-sm">🥢</span>}
@@ -579,21 +579,36 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="relative">
-                  <select 
-                    className="w-full bg-stone-50 border border-stone-100 rounded-2xl p-4 appearance-none font-bold text-stone-700 outline-none focus:ring-2 focus:ring-orange-200 transition-all text-base"
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        setSelectedSchool(e.target.value);
-                        setIsSettingOpen(false);
-                      }
-                    }}
-                    value={selectedSchool}
-                  >
-                    <option value="">小学校を選択してね</option>
-                    {Object.keys(SCHOOL_MAPPING).sort().map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" size={20} />
+                <div className="space-y-6 overflow-y-auto max-h-[60vh] px-1 custom-scrollbar">
+                  {(Object.keys(SCHOOL_CATEGORIES) as Array<keyof typeof SCHOOL_CATEGORIES>).map((catKey) => {
+                    const cat = SCHOOL_CATEGORIES[catKey];
+                    return (
+                      <div key={catKey} className="space-y-3">
+                        <div className="flex items-center gap-2 px-1">
+                          <span className="text-lg">{cat.icon}</span>
+                          <h3 className="text-sm font-black text-stone-400 uppercase tracking-widest">{cat.label}</h3>
+                        </div>
+                        <div className={`${catKey === 'juniorHigh' ? 'flex' : 'grid grid-cols-2'} gap-2`}>
+                          {cat.schools.map((s) => (
+                            <button
+                              key={s.name}
+                              onClick={() => {
+                                setSelectedSchool(s.name);
+                                setIsSettingOpen(false);
+                              }}
+                              className={`p-3 rounded-2xl text-sm font-bold text-left transition-all border flex-1 ${
+                                selectedSchool === s.name
+                                  ? 'bg-orange-500 text-white border-orange-400 shadow-lg shadow-orange-500/20 active:scale-95'
+                                  : 'bg-stone-50 text-stone-600 border-stone-100 hover:bg-stone-100 active:bg-stone-200'
+                              }`}
+                            >
+                              {s.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="bg-stone-50 p-4 rounded-2xl">
