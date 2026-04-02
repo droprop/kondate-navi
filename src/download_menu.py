@@ -74,9 +74,9 @@ def download_pdfs(year=None, month=None):
     download_dir = os.path.join(base_dir, "downloads", folder_name)
     os.makedirs(download_dir, exist_ok=True)
     
-    # 見出しタグから「第一調理場」「第二調理場（第ニも含む）」を探す
+    # 見出しタグから「第一・第二（小学校）」および「第三（中学校）」を探す
     # サイト上の表記揺れ（漢数字の二とカタカナのニ）を吸収する正規表現
-    headers = soup.find_all(re.compile(r"^h[1-6]$"), string=re.compile(r"小学校給食.*第[一二ニ]調理場"))
+    headers = soup.find_all(re.compile(r"^h[1-6]$"), string=re.compile(r"給食.*第[一二ニ三]調理場"))
     
     if not headers:
         logger.warning("警告: ページ内に第一調理場・第二調理場の見出しが見つかりませんでした。")
@@ -110,8 +110,13 @@ def download_pdfs(year=None, month=None):
             curr_elem = curr_elem.find_next_sibling()
             
         if found_link:
-            # 第一か第二かを判定してファイル名に付与
-            suffix = "第一調理場" if "第一" in header_text else "第二調理場"
+            # 第一か第二か第三かを判定してファイル名に付与
+            if "第一" in header_text:
+                suffix = "第一調理場"
+            elif "第三" in header_text:
+                suffix = "第三調理場"
+            else:
+                suffix = "第二調理場"
             
             # 元のファイル名をURLから抽出
             parsed_url = urllib.parse.urlparse(found_link)

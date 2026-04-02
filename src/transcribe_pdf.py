@@ -295,8 +295,8 @@ def main():
                         help="使用するGeminiのモデル名 (デフォルト: gemini-3.1-pro-preview)")
     parser.add_argument("--pdf", type=str, 
                         help="特定のPDFファイルを指定する場合のパス (指定がない場合はdownloadsから全取得して未処理のものを実行)")
-    parser.add_argument("--output-dir", type=str, default="results",
-                        help="結果のJSONを保存するディレクトリ名 (デフォルト: results)")
+    parser.add_argument("--output-dir", type=str, default="raw_results",
+                        help="結果のJSONを保存するディレクトリ名 (デフォルト: raw_results)")
     parser.add_argument("--force", action="store_true",
                         help="既にJSONが存在しても上書きして再実行する")
     parser.add_argument("--project", type=str, default="argon-tuner-349921",

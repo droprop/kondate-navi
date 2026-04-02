@@ -74,6 +74,18 @@ def main():
         logger.error("Transcribe tool crashed or timed out. Aborting pipeline.")
         sys.exit(1)
 
+    # Step 2.5: Enrich JSON with Emojis and Main Dish flags
+    logger.info(f"[Step 2.5] Triggering Vertex AI Menu Enrichment...")
+    enrich_cmd = [
+        sys.executable, "src/enrich_menu.py",
+        "--year", str(target_year),
+        "--month", str(target_month)
+    ]
+    result = subprocess.run(enrich_cmd)
+    if result.returncode != 0:
+        logger.error("Enrich tool crashed or timed out. Aborting pipeline.")
+        sys.exit(1)
+
     # Step 3: Generate and aggregate data
     logger.info(f"[Step 3] Dispatching Data Aggregator...")
     generate_cmd = [
@@ -89,20 +101,17 @@ def main():
     logger.info(f"=== Pipeline Processing Complete ===")
     logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated.")
 
-    # Step 5: Git Sync (Optional)
+    # Step 4: Publish (Copy local + Push to GitHub)
     if args.push:
-        logger.info(f"[Step 5] Synchronizing with GitHub Repository...")
-        try:
-            # Stage changes
-            subprocess.run(["git", "add", "downloads", "results", "data"], check=True)
-            # Commit
-            commit_msg = f"auto: update lunch data for {target_year}-{target_month}"
-            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-            # Push
-            subprocess.run(["git", "push", "origin", "main"], check=True)
-            logger.info("Successfully pushed updates to GitHub.")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Git synchronization failed: {e}")
+        logger.info(f"[Step 4] Running Publish Process...")
+        publish_cmd = [
+            sys.executable, "src/publish_data.py",
+            "--year", str(target_year),
+            "--month", str(target_month)
+        ]
+        result = subprocess.run(publish_cmd)
+        if result.returncode != 0:
+            logger.error("Publish tool failed. Aborting.")
             sys.exit(1)
 
 if __name__ == "__main__":
