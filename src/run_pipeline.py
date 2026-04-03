@@ -49,7 +49,14 @@ def main():
         target_year = args.year
         target_month = args.month
 
-    logger.info(f"=== Starting Automation Pipeline for target: {target_year}/{target_month} ===")
+    logger.info("====================================================")
+    logger.info(f"🚀 Starting Pipeline for: {target_year}年 {target_month}月")
+    if not args.year or not args.month:
+        logger.info(f"   (Mode: Auto-detection based on current time)")
+    else:
+        logger.info(f"   (Mode: Manual override via arguments)")
+    logger.info("====================================================")
+    logger.info("Tip: If you want to target another month, use: python src/run_pipeline.py --year YYYY --month M")
     os.chdir(BASE_DIR)
 
     # Step 1: Download PDF

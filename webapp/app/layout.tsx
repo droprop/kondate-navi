@@ -55,7 +55,6 @@ export default function RootLayout({
   return (
     <html lang="ja" className={outfit.variable}>
       <head>
-        <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossOrigin="anonymous" />
       </head>
       <body>
         {children}

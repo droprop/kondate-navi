@@ -420,9 +420,9 @@ export default function Home() {
                         { label: '脂質', val: displayMenu.nutrition.fat_g, unit: 'g', color: 'text-stone-700' },
                       ].map((n, i) => (
                         <div key={i} className="flex flex-col items-center flex-1 min-w-[65px]">
-                          <span className="text-[11px] font-bold text-stone-400 whitespace-nowrap">{n.label}</span>
-                          <span className={`text-base font-semibold ${n.color} whitespace-nowrap`}>
-                            {n.val} <small className="text-[10px] font-medium">{n.unit}</small>
+                          <span className="text-[11px] font-medium text-stone-400 whitespace-nowrap">{n.label}</span>
+                          <span className={`text-base font-medium ${n.color} whitespace-nowrap`}>
+                            {n.val} <small className="text-[10px] font-normal">{n.unit}</small>
                           </span>
                         </div>
                       ))}
@@ -580,11 +580,12 @@ export default function Home() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[2.5rem] z-50 p-6 sm:p-8 shadow-2xl border-t border-stone-100 max-h-[92vh] flex flex-col"
+              transition={{ type: "spring", damping: 28, stiffness: 250 }}
+              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[3.5rem] z-50 p-6 sm:px-10 sm:pt-8 sm:pb-10 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.1)] border-t border-stone-100 max-h-[80vh] flex flex-col"
             >
-              <div className="w-12 h-1.5 bg-stone-100 rounded-full mx-auto mb-6 shrink-0 cursor-pointer" onClick={() => setIsSettingOpen(false)} />
-              <div className="space-y-6 pb-safe overflow-hidden flex flex-col">
+              <div className="w-14 h-1.5 bg-stone-100 rounded-full mx-auto mb-8 shrink-0 cursor-pointer hover:bg-stone-200 transition-colors" onClick={() => setIsSettingOpen(false)} />
+              <div className="space-y-6 pb-6 overflow-hidden flex flex-col">
+
                 <div className="flex items-center gap-4 shrink-0 px-2">
                   <div className="bg-orange-100 p-3 rounded-2xl text-orange-600">
                     <School size={24} />
