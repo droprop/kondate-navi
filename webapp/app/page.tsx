@@ -368,8 +368,14 @@ export default function Home() {
                       </div>
                       <ul className="divide-y divide-stone-50">
                         {[...displayMenu.menu_items].sort((a, b) => {
+                          // 1. 主菜（★）を最優先
                           if (a.startsWith('★') && !b.startsWith('★')) return -1;
                           if (!a.startsWith('★') && b.startsWith('★')) return 1;
+                          // 2. 牛乳を最後尾に
+                          const isMilkA = a.includes('牛乳');
+                          const isMilkB = b.includes('牛乳');
+                          if (isMilkA && !isMilkB) return 1;
+                          if (!isMilkA && isMilkB) return -1;
                           return 0;
                         }).map((item, i) => {
                           const isMain = item.startsWith('★');
@@ -413,10 +419,10 @@ export default function Home() {
                         { label: 'タンパク', val: displayMenu.nutrition.protein_g, unit: 'g', color: 'text-stone-700' },
                         { label: '脂質', val: displayMenu.nutrition.fat_g, unit: 'g', color: 'text-stone-700' },
                       ].map((n, i) => (
-                        <div key={i} className="flex flex-col items-center flex-1 min-w-[60px]">
-                          <span className="text-[9px] font-bold text-stone-400 whitespace-nowrap">{n.label}</span>
-                          <span className={`text-sm font-black ${n.color} whitespace-nowrap`}>
-                            {n.val} <small className="text-[8px] font-bold">{n.unit}</small>
+                        <div key={i} className="flex flex-col items-center flex-1 min-w-[65px]">
+                          <span className="text-[11px] font-bold text-stone-400 whitespace-nowrap">{n.label}</span>
+                          <span className={`text-base font-black ${n.color} whitespace-nowrap`}>
+                            {n.val} <small className="text-[10px] font-bold">{n.unit}</small>
                           </span>
                         </div>
                       ))}
@@ -565,11 +571,11 @@ export default function Home() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[2.5rem] z-50 p-8 shadow-2xl border-t border-stone-100"
+              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[2.5rem] z-50 p-6 sm:p-8 shadow-2xl border-t border-stone-100 max-h-[92vh] flex flex-col"
             >
-              <div className="w-12 h-1.5 bg-stone-100 rounded-full mx-auto mb-8 cursor-pointer" onClick={() => setIsSettingOpen(false)} />
-              <div className="space-y-6 pb-4">
-                <div className="flex items-center gap-4">
+              <div className="w-12 h-1.5 bg-stone-100 rounded-full mx-auto mb-6 shrink-0 cursor-pointer" onClick={() => setIsSettingOpen(false)} />
+              <div className="space-y-6 pb-safe overflow-hidden flex flex-col">
+                <div className="flex items-center gap-4 shrink-0 px-2">
                   <div className="bg-orange-100 p-3 rounded-2xl text-orange-600">
                     <School size={24} />
                   </div>
@@ -579,7 +585,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="space-y-6 overflow-y-auto max-h-[60vh] px-1 custom-scrollbar">
+                <div className="space-y-6 overflow-y-auto flex-1 px-1 custom-scrollbar pb-4 min-h-0">
                   {(Object.keys(SCHOOL_CATEGORIES) as Array<keyof typeof SCHOOL_CATEGORIES>).map((catKey) => {
                     const cat = SCHOOL_CATEGORIES[catKey];
                     return (
@@ -611,7 +617,7 @@ export default function Home() {
                   })}
                 </div>
 
-                <div className="bg-stone-50 p-4 rounded-2xl">
+                <div className="bg-stone-50 p-4 rounded-2xl shrink-0">
                   <p className="text-[10px] text-stone-400 font-bold leading-relaxed">
                     ※一度選択すると、次回から自動的にこの学校の献立が表示されます。後でいつでも変更可能です。
                   </p>
@@ -619,7 +625,7 @@ export default function Home() {
 
                 <button 
                   onClick={() => setIsSettingOpen(false)}
-                  className="w-full py-4 text-stone-300 font-black text-xs uppercase tracking-widest active:text-orange-400 transition"
+                  className="w-full py-4 text-stone-300 font-black text-xs uppercase tracking-widest active:text-orange-400 transition shrink-0"
                 >
                   Close Settings
                 </button>
