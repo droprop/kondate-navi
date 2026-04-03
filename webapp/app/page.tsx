@@ -421,8 +421,8 @@ export default function Home() {
                       ].map((n, i) => (
                         <div key={i} className="flex flex-col items-center flex-1 min-w-[65px]">
                           <span className="text-[11px] font-bold text-stone-400 whitespace-nowrap">{n.label}</span>
-                          <span className={`text-base font-black ${n.color} whitespace-nowrap`}>
-                            {n.val} <small className="text-[10px] font-bold">{n.unit}</small>
+                          <span className={`text-base font-semibold ${n.color} whitespace-nowrap`}>
+                            {n.val} <small className="text-[10px] font-medium">{n.unit}</small>
                           </span>
                         </div>
                       ))}
@@ -508,7 +508,17 @@ export default function Home() {
                       </div>
                       <div className="flex-1">
                         <div className="text-sm font-bold text-stone-600 leading-snug line-clamp-2 group-active:text-orange-600">
-                          {m.menu_items.map(item => {
+                          {[...m.menu_items].sort((a, b) => {
+                            // 1. 主菜（★）を最優先
+                            if (a.startsWith('★') && !b.startsWith('★')) return -1;
+                            if (!a.startsWith('★') && b.startsWith('★')) return 1;
+                            // 2. 牛乳を最後尾に
+                            const isMilkA = a.includes('牛乳');
+                            const isMilkB = b.includes('牛乳');
+                            if (isMilkA && !isMilkB) return 1;
+                            if (!isMilkA && isMilkB) return -1;
+                            return 0;
+                          }).map(item => {
                             // 絵文字と★を除去してテキストのみを抽出
                             let clean = item.replace('★', '').trim();
                             const spaceIdx = clean.indexOf(' ');
