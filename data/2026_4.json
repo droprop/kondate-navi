@@ -54,7 +54,7 @@
     {
       "date": 13,
       "day_of_week": "月",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍜 担々麺",
@@ -107,11 +107,11 @@
     {
       "date": 14,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
-        "★🐖 豚丼",
-        "🍲 かきたま汁",
+        "★🐷 豚丼",
+        "🥣 かきたま汁",
         "🍮 ゼリーポンチ"
       ],
       "ingredients": {
@@ -143,7 +143,7 @@
           "もやし",
           "大根",
           "長ねぎ",
-          "黄桃",
+          "桜桃",
           "パインアップル",
           "りんご"
         ]
@@ -162,12 +162,12 @@
     {
       "date": 15,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "🍲 根菜の煮物",
-        "★🐟 カレイの磯香揚げ",
+        "★🐟 カレイの磯辺揚げ",
         "🥬 おひたし",
         "🍎 りんご"
       ],
@@ -181,7 +181,7 @@
         ],
         "body_building": [
           "牛乳",
-          "鶏肉",
+          "豚肉",
           "生揚げ",
           "カレイ",
           "青のり",
@@ -213,7 +213,7 @@
     {
       "date": 16,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -253,7 +253,7 @@
       },
       "nutrition": {
         "energy_kcal": 654,
-        "protein_g": 25.3,
+        "protein_g": 26.3,
         "fat_g": 20.6,
         "salt_g": 2.0
       },
@@ -319,7 +319,7 @@
       "day_of_week": "月",
       "needs_chopsticks": false,
       "menu_items": [
-        "🍞 きなこ揚げパン",
+        "🥖 きなこ揚げパン",
         "🥛 牛乳",
         "★🍲 豆乳コーンスープ",
         "🥗 グリーンサラダ",
@@ -367,7 +367,7 @@
     {
       "date": 21,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -418,13 +418,13 @@
     {
       "date": 22,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🍗 鶏肉と芋の甘辛揚げ",
-        "🥬 のりおかか和え",
-        "🍲 豚汁",
+        "🥗 のりおかか和え",
+        "🥣 豚汁",
         "🍮 クリームソーダ風ゼリー"
       ],
       "ingredients": {
@@ -473,11 +473,11 @@
     {
       "date": 23,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍚 ビビンバ（麦ごはん・肉・ごまナムル）",
-        "🍲 ワンタンスープ",
+        "🥣 ワンタンスープ",
         "🍋 はちみつレモンゼリー"
       ],
       "ingredients": {
@@ -524,14 +524,14 @@
     {
       "date": 24,
       "day_of_week": "金",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🍲 肉じゃが",
         "★🐟 さばのごまだれかけ",
-        "🫘 納豆和え",
-        "🍒 アセロラゼリー"
+        "🥗 納豆和え",
+        "🍮 アセロラゼリー"
       ],
       "ingredients": {
         "energy_source": [
@@ -575,12 +575,12 @@
     {
       "date": 27,
       "day_of_week": "月",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🍲 和風カレーマーボー豆腐",
-        "🍢 ちくわの天ぷら",
+        "★🍤 ちくわの天ぷら",
         "🥗 春雨サラダ",
         "🐟 味付き小魚"
       ],
@@ -629,13 +629,13 @@
     {
       "date": 28,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🐟 いなだの黒酢揚げ",
         "🥗 ハムと野菜のサラダ",
-        "🍲 鶏つみれと白菜の汁物"
+        "🥣 鶏つみれと白菜の汁物"
       ],
       "ingredients": {
         "energy_source": [
@@ -685,7 +685,7 @@
         "🥛 牛乳",
         "★🍝 スパゲティミートソース",
         "🥗 ハーブレモンサラダ",
-        "🥧 豆乳プリンタルト"
+        "🍮 豆乳プリンタルト"
       ],
       "ingredients": {
         "energy_source": [
@@ -1049,10 +1049,10 @@
       "menu_items": [
         "🍚 ご飯",
         "🥛 牛乳",
-        "★🍲 肉じゃが",
+        "★🐖 肉じゃが",
         "★🐟 ししゃものカレー揚げ（２）",
-        "🥣 納豆和え",
-        "🍋 はちみつレモンゼリー"
+        "🫘 納豆和え",
+        "🍮 はちみつレモンゼリー"
       ],
       "ingredients": {
         "energy_source": [
@@ -1256,8 +1256,8 @@
       "needs_chopsticks": false,
       "menu_items": [
         "🍞 セルフサンド",
-        "🥔 （コッペパン ポテトコロッケ ソース）",
-        "★🍲 豆入りコーンクリームシチュー",
+        "★🥔 （コッペパン　ポテトコロッケ　ソース）",
+        "🍲 豆入りコーンクリームシチュー",
         "🥗 キャベツとマカロニのツナサラダ",
         "🥛 牛乳"
       ],
@@ -1419,7 +1419,7 @@
         "🥛 牛乳",
         "★🐟 たらのケチャップ揚げ",
         "🍲 大根と生揚げのそぼろ煮",
-        "🌽 コーンとポテトのごまドレ和え"
+        "🥗 コーンとポテトのごまドレ和え"
       ],
       "ingredients": {
         "energy_source": [
@@ -1465,7 +1465,7 @@
     {
       "date": 10,
       "day_of_week": "金",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍜 担々麺",
@@ -1518,10 +1518,10 @@
     {
       "date": 13,
       "day_of_week": "月",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
-        "★🐷 豚丼",
+        "★🐖 豚丼",
         "🥣 かきたま汁",
         "🍮 ゼリーポンチ"
       ],
@@ -1573,13 +1573,13 @@
     {
       "date": 14,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "🍲 根菜の煮物",
         "★🐟 カレイの磯辺揚げ",
-        "🥬 おひたし",
+        "🥗 おひたし",
         "🍎 りんご"
       ],
       "ingredients": {
@@ -1624,7 +1624,7 @@
     {
       "date": 15,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1676,13 +1676,13 @@
     {
       "date": 16,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🍗 鶏肉と芋の甘辛揚げ",
         "🥗 海苔おかか和え",
-        "🥣 豚汁",
+        "🍲 豚汁",
         "🍮 クリームソーダ風ゼリー"
       ],
       "ingredients": {
@@ -1829,7 +1829,7 @@
     {
       "date": 21,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1880,12 +1880,12 @@
     {
       "date": 22,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍚 ビビンバ（麦ごはん・肉・ごまナムル）",
         "🥣 ワンタンスープ",
-        "🍮 はちみつレモンゼリー"
+        "🍋 はちみつレモンゼリー"
       ],
       "ingredients": {
         "energy_source": [
@@ -1931,7 +1931,7 @@
     {
       "date": 23,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1984,7 +1984,7 @@
       "day_of_week": "金",
       "needs_chopsticks": false,
       "menu_items": [
-        "🍞 きなこ揚げパン",
+        "★🍞 きなこ揚げパン",
         "🥛 牛乳",
         "🥣 豆乳コーンスープ",
         "🥗 グリーンサラダ",
@@ -2083,7 +2083,7 @@
     {
       "date": 28,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -2137,13 +2137,13 @@
     {
       "date": 30,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
-        "★🍖 肉じゃが",
+        "★🍲 肉じゃが",
         "★🐟 さばのごまだれかけ",
-        "🫘 納豆和え",
+        "🥗 納豆和え",
         "🍮 アセロラゼリー"
       ],
       "ingredients": {
