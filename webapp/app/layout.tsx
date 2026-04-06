@@ -55,9 +55,6 @@ export default function RootLayout({
   return (
     <html lang="ja" className={outfit.variable}>
       <head>
-      </head>
-      <body>
-        {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -89,6 +86,10 @@ export default function RootLayout({
             ])
           }}
         />
+      </head>
+      <body>
+        {children}
+
       </body>
       <GoogleAnalytics gaId="G-WJG0XFQ7X8" />
     </html>

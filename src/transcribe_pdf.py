@@ -124,14 +124,30 @@ def detect_chopsticks_mapping(pdf_path: Path) -> dict:
                 text_center_y_300dpi = ((y0 + y1) / 2) * zoom
                 text_center_x_300dpi = ((x0 + x1) / 2) * zoom
                 
-                if day not in date_needs_chopsticks:
-                    has_circle = False
-                    for cx, cy, cr in circles:
-                        dist = np.sqrt((cx - text_center_x_300dpi)**2 + (cy - text_center_y_300dpi)**2)
-                        if dist < 60: 
-                            has_circle = True
-                            break
-                    date_needs_chopsticks[day] = has_circle
+                # 手法A: 従来の〇印とのマッチング (中学校用)
+                has_circle = False
+                for cx, cy, cr in circles:
+                    dist = np.sqrt((cx - text_center_x_300dpi)**2 + (cy - text_center_y_300dpi)**2)
+                    if dist < 60: 
+                        has_circle = True
+                        break
+                
+                # 手法B: 2026年4月以降の小学校用「左側のアイコン」のピクセル密度検知
+                has_icon = False
+                # 日付セルの左横の中空領域をスキャン (X: 日付基準から-120px〜-30pxの範囲)
+                icon_region_left = int(anchor_x_300dpi - 120)
+                icon_region_right = int(anchor_x_300dpi - 30)
+                icon_region_top = int(y0 * zoom - 10)
+                icon_region_bottom = int(y1 * zoom + 10)
+                
+                if icon_region_left > 0 and icon_region_top > 0 and icon_region_bottom < thresh.shape[0]:
+                    density = cv2.countNonZero(thresh[icon_region_top:icon_region_bottom, icon_region_left:icon_region_right])
+                    # 罫線のノイズ（通常約400px前後）を大幅に超える黒ピクセルがあればアイコン有りと判定
+                    if density > 800:
+                        has_icon = True
+                
+                date_needs_chopsticks[day] = has_circle or has_icon
+
                 
     logger.info(f"[{pdf_path.name}] 画像解析完了: {len(date_needs_chopsticks)}日分のお箸フラグを抽出しました。")
     return date_needs_chopsticks
