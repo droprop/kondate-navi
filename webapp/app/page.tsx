@@ -14,6 +14,13 @@ import {
 } from 'lucide-react';
 
 const SCHOOL_CATEGORIES = {
+  juniorHigh: {
+    label: "中学校",
+    icon: "🎓",
+    schools: [
+      { name: "浦安市内中学校すべて", facility: "浦安市千鳥学校給食センター 第三調理場" },
+    ]
+  },
   primary: {
     label: "小学校",
     icon: "🎒",
@@ -35,13 +42,6 @@ const SCHOOL_CATEGORIES = {
       { name: "明海南小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
       { name: "高洲北小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
       { name: "東野小学校", facility: "浦安市千鳥学校給食センター 第二調理場" },
-    ]
-  },
-  juniorHigh: {
-    label: "中学校",
-    icon: "🎓",
-    schools: [
-      { name: "浦安市内中学校すべて", facility: "浦安市千鳥学校給食センター 第三調理場" },
     ]
   }
 };
@@ -581,22 +581,21 @@ export default function Home() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 250 }}
-              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[3.5rem] z-50 p-6 sm:px-10 sm:pt-8 sm:pb-10 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.1)] border-t border-stone-100 max-h-[80vh] flex flex-col"
+              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[3.5rem] z-50 pt-5 pb-6 px-4 sm:px-8 sm:pt-6 sm:pb-8 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.1)] border-t border-stone-100 max-h-[85vh] flex flex-col"
             >
-              <div className="w-14 h-1.5 bg-stone-100 rounded-full mx-auto mb-8 shrink-0 cursor-pointer hover:bg-stone-200 transition-colors" onClick={() => setIsSettingOpen(false)} />
-              <div className="space-y-6 pb-6 overflow-hidden flex flex-col">
+              <div className="w-14 h-1.5 bg-stone-100 rounded-full mx-auto mb-4 shrink-0 cursor-pointer hover:bg-stone-200 transition-colors" onClick={() => setIsSettingOpen(false)} />
+              <div className="space-y-4 pb-2 overflow-hidden flex flex-col min-h-0">
 
-                <div className="flex items-center gap-4 shrink-0 px-2">
-                  <div className="bg-orange-100 p-3 rounded-2xl text-orange-600">
+                <div className="flex items-center gap-4 shrink-0 px-2 pb-2">
+                  <div className="bg-orange-100 p-3 rounded-2xl text-orange-600 shrink-0">
                     <School size={24} />
                   </div>
-                  <div>
+                  <div className="flex flex-col">
                     <h2 className="text-xl font-bold text-stone-800 tracking-tight">学校の設定</h2>
-                    <p className="text-xs text-stone-400 font-bold">お住まいの地域の学校を選んでください</p>
+                    <p className="text-xs text-stone-400 font-bold mt-1">お子様が通っている学校を選んでください</p>
                   </div>
                 </div>
-                
-                <div className="space-y-6 overflow-y-auto flex-1 px-1 custom-scrollbar pb-4 min-h-0">
+                <div className="space-y-5 overflow-y-auto flex-1 px-1 custom-scrollbar min-h-0">
                   {(Object.keys(SCHOOL_CATEGORIES) as Array<keyof typeof SCHOOL_CATEGORIES>).map((catKey) => {
                     const cat = SCHOOL_CATEGORIES[catKey];
                     return (
@@ -628,15 +627,19 @@ export default function Home() {
                   })}
                 </div>
 
-                <div className="bg-stone-50 p-4 rounded-2xl shrink-0">
-                  <p className="text-[10px] text-stone-400 font-bold leading-relaxed">
-                    ※一度選択すると、次回から自動的にこの学校の献立が表示されます。後でいつでも変更可能です。
-                  </p>
+                <div className="flex justify-center shrink-0 pt-2 pb-0">
+                  <span className="flex items-center gap-1 text-stone-400 font-bold text-[11px] px-3 py-1 bg-stone-50 rounded-full">
+                    <ChevronDown size={14} /> リストを下へスクロールできます
+                  </span>
                 </div>
+
+                <p className="text-[9px] text-stone-400 font-bold leading-relaxed text-center mt-3 shrink-0 px-4">
+                  ※選択した学校の献立が次回から自動的に表示されます
+                </p>
 
                 <button 
                   onClick={() => setIsSettingOpen(false)}
-                  className="w-full py-4 text-stone-300 font-black text-xs uppercase tracking-widest active:text-orange-400 transition shrink-0"
+                  className="w-full mt-2 pt-3 pb-1 text-stone-300 font-black text-xs uppercase tracking-widest active:text-orange-400 transition shrink-0"
                 >
                   Close Settings
                 </button>
