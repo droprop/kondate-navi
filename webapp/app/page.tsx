@@ -573,8 +573,9 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
               onClick={() => setIsSettingOpen(false)}
-              className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-40 transition-all"
+              className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-40"
             />
             <motion.div 
               initial={{ y: "100%" }}
