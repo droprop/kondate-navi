@@ -254,7 +254,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] font-sans text-stone-800 pb-20 selection:bg-orange-200">
+    <div className="min-h-screen bg-[#FFFDF9] font-sans text-stone-800 pb-10 selection:bg-orange-200">
       
       {/* ヘッダー */}
       <header className="bg-white/95 backdrop-blur-md border-b border-stone-100 px-4 py-3 sticky top-0 z-30 shadow-sm">
@@ -447,7 +447,7 @@ export default function Home() {
                       {[
                         { label: 'エネルギー', val: displayMenu.nutrition.energy_kcal, unit: 'kcal', color: 'text-orange-500' },
                         { label: '塩分', val: displayMenu.nutrition.salt_g, unit: 'g', color: 'text-stone-700' },
-                        { label: 'タンパク', val: displayMenu.nutrition.protein_g, unit: 'g', color: 'text-stone-700' },
+                        { label: 'タンパク質', val: displayMenu.nutrition.protein_g, unit: 'g', color: 'text-stone-700' },
                         { label: '脂質', val: displayMenu.nutrition.fat_g, unit: 'g', color: 'text-stone-700' },
                       ].map((n, i) => (
                         <div key={i} className="flex flex-col items-center flex-1 min-w-[65px]">
