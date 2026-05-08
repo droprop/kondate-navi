@@ -32,7 +32,7 @@ python src\run_pipeline.py --year 2026 --month 4 --push
 4. 完成したJSONを GitHub Pages の公開ディレクトリへ反映（アプリは自動更新されます）
 
 スクリプトが「Pipeline Processing Complete」と表示したら運用完了です。
-[https://kondate-navi.web.app/](https://kondate-navi.web.app/) (浦安市の給食献立 - こんだてボード) で最新の年月が表示されるか確認してください。
+[浦安市の給食献立 - こんだてボード](https://kondate-navi.web.app/) で最新の年月が表示されるか確認してください。
 
 ---
 

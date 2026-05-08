@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://kondate-navi.web.app"),
   alternates: { canonical: '/' },
   title: "浦安市の給食献立 - こんだてボード",
-  description: "浦安市の小・中学校（第一・第二・第三調理場）の給食献立をスマホでさっと確認。公開された献立表を AI 解析で分かりやすく表示する、保護者による非公式の献立予定表アプリです。毎日のメニューやお箸の要否をすぐにチェックできます。",
+  description: "浦安市の小学校（第一・第二調理場）・中学校（第三調理場）の給食献立をスマホでさっと確認。公開された献立表を分かりやすく表示する、保護者による非公式の献立予定表アプリです。毎日のメニューやお箸の要否をすぐにチェックできます。",
   keywords: ["浦安市", "給食", "献立", "小学校", "中学校", "メニュー", "千鳥学校給食センター"],
   applicationName: "こんだてボード",
   manifest: "https://kondate-navi.web.app/manifest.json",
@@ -72,7 +72,7 @@ export default function RootLayout({
                 "name": "こんだてボード",
                 "operatingSystem": "Web",
                 "applicationCategory": "EducationalApplication",
-                "description": "浦安市の小・中学校の給食献立をスマホで見やすく表示。AIによる献立解析機能を搭載。",
+                "description": "浦安市の小学校（第一・第二調理場）・中学校（第三調理場）の給食献立をスマホでさっと確認。公開された献立表を分かりやすく表示する、保護者による非公式の献立予定表アプリです。毎日のメニューやお箸の要否をすぐにチェックできます。",
                 "offers": {
                   "@type": "Offer",
                   "price": "0",

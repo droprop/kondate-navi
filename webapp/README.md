@@ -3,7 +3,7 @@
 本ディレクトリ（`webapp`）は、「浦安市の給食献立 - こんだてボード」のフロントエンドアプリケーション（Next.js）です。
 
 ## 🌐 本番環境URL
-[https://kondate-navi.web.app/](https://kondate-navi.web.app/)
+[浦安市の給食献立 - こんだてボード](https://kondate-navi.web.app/)
 
 ## 🚀 開発環境の起動
 
