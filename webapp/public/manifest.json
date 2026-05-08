@@ -1,6 +1,6 @@
 {
-  "name": "こんだてナビ | 浦安市",
-  "short_name": "こんだてナビ",
+  "name": "浦安市の給食献立 - こんだてボード",
+  "short_name": "こんだてボード",
   "description": "浦安市の学校給食献立をスマートにチェック",
   "start_url": "/",
   "display": "standalone",

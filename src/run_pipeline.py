@@ -36,6 +36,7 @@ def main():
     parser.add_argument("--year", type=int, help="Target year (e.g. 2026)")
     parser.add_argument("--month", type=int, help="Target month (1-12)")
     parser.add_argument("--push", action="store_true", help="Git commit & push automatically after success")
+    parser.add_argument("--force", action="store_true", help="Force re-transcription even if JSON exists")
     args = parser.parse_args()
 
     now = datetime.now()
@@ -72,10 +73,11 @@ def main():
     logger.info(f"[Step 2] Triggering Vertex AI Audio/Image Analysis...")
     transcribe_cmd = [
         sys.executable, "src/transcribe_pdf.py", 
-        "--force", 
         "--year", str(target_year), 
         "--month", str(target_month)
     ]
+    if args.force:
+        transcribe_cmd.append("--force")
     result = subprocess.run(transcribe_cmd)
     if result.returncode != 0:
         logger.error("Transcribe tool crashed or timed out. Aborting pipeline.")

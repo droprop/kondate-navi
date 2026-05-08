@@ -10,7 +10,11 @@ import {
   Settings, 
   ChevronDown,
   AlertTriangle,
-  Info
+  Info,
+  Download,
+  Smartphone,
+  Share,
+  MoreVertical
 } from 'lucide-react';
 
 const SCHOOL_CATEGORIES = {
@@ -82,11 +86,27 @@ export default function Home() {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'today' | 'calendar'>('today');
+  const [isStandalone, setIsStandalone] = useState(true); // 初期値trueでチラつき防止
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
+  const [deviceOS, setDeviceOS] = useState<'ios' | 'android' | 'other'>('other');
 
   useEffect(() => {
     const savedSchool = localStorage.getItem('selectedSchool');
     if (savedSchool && SCHOOL_MAPPING[savedSchool]) {
       setSelectedSchool(savedSchool);
+    }
+    
+    // PWA判定とOS判定
+    if (typeof window !== 'undefined') {
+      const isPwa = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+      setIsStandalone(isPwa);
+
+      const ua = window.navigator.userAgent.toLowerCase();
+      if (/iphone|ipad|ipod/.test(ua)) {
+        setDeviceOS('ios');
+      } else if (/android/.test(ua)) {
+        setDeviceOS('android');
+      }
     }
   }, []);
 
@@ -244,21 +264,32 @@ export default function Home() {
               <UtensilsCrossed size={18} />
             </div>
             <h1 className="text-base font-bold text-stone-700 tracking-tight flex items-center">
-              <span className="sr-only">浦安市 小・中学校 給食・献立メニュー一覧 </span>
-              こんだてナビ
+              <span className="sr-only">浦安市の給食献立 </span>
+              こんだてボード
             </h1>
           </div>
-          <button 
-            onClick={() => setIsSettingOpen(true)} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
-              selectedSchool 
-                ? 'bg-stone-100 text-stone-600' 
-                : 'bg-orange-500 text-white shadow-lg shadow-orange-500/20 active:scale-95'
-            }`}
-          >
-            <span className="text-xs font-bold">{selectedSchool || '学校を選択'}</span>
-            <Settings size={14} />
-          </button>
+          <div className="flex items-center gap-2">
+            {!isStandalone && (
+              <button
+                onClick={() => setIsInstallModalOpen(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-full transition-all bg-stone-100 text-stone-600 border border-stone-200 active:scale-95"
+              >
+                <Download size={14} className="text-orange-500" />
+                <span className="text-xs font-bold">アプリ化</span>
+              </button>
+            )}
+            <button 
+              onClick={() => setIsSettingOpen(true)} 
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
+                selectedSchool 
+                  ? 'bg-stone-100 text-stone-600' 
+                  : 'bg-orange-500 text-white shadow-lg shadow-orange-500/20 active:scale-95'
+              }`}
+            >
+              <span className="text-xs font-bold">{selectedSchool || '学校を選択'}</span>
+              <Settings size={14} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -645,6 +676,82 @@ export default function Home() {
                   Close Settings
                 </button>
               </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* インストール案内モーダル */}
+      <AnimatePresence>
+        {isInstallModalOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              onClick={() => setIsInstallModalOpen(false)}
+              className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-40"
+            />
+            <motion.div 
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 28, stiffness: 250 }}
+              className="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-white rounded-[2rem] z-50 p-6 shadow-2xl border border-stone-100 flex flex-col"
+            >
+              <div className="flex flex-col items-center text-center space-y-4 mb-6">
+                <div className="bg-orange-100 p-3 rounded-2xl text-orange-500 mb-2">
+                  <Smartphone size={32} />
+                </div>
+                <h2 className="text-xl font-bold text-stone-800 tracking-tight">スマホにアプリとして追加</h2>
+                <p className="text-sm text-stone-500 leading-relaxed font-medium">
+                  ホーム画面に追加すると、次回からアイコンをタップするだけで<strong>サクッと全画面</strong>で給食を確認できるようになります！
+                </p>
+              </div>
+
+              <div className="bg-stone-50 rounded-2xl p-5 mb-6 border border-stone-100">
+                {deviceOS === 'ios' ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
+                      <p className="text-sm font-medium text-stone-700 flex-1">
+                        画面下部のメニューから <Share size={16} className="inline text-blue-500 mx-1" /> <strong>共有ボタン</strong> をタップ
+                      </p>
+                    </div>
+                    <div className="w-px h-4 bg-stone-300 ml-4"></div>
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
+                      <p className="text-sm font-medium text-stone-700 flex-1">
+                        少し下にスクロールして<br/><strong>「ホーム画面に追加」</strong>をタップ
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
+                      <p className="text-sm font-medium text-stone-700 flex-1">
+                        画面右上（または右下）の <MoreVertical size={16} className="inline text-stone-500 mx-1" /> <strong>メニュー</strong> をタップ
+                      </p>
+                    </div>
+                    <div className="w-px h-4 bg-stone-300 ml-4"></div>
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
+                      <p className="text-sm font-medium text-stone-700 flex-1">
+                        <strong>「ホーム画面に追加」</strong> または<br/><strong>「アプリをインストール」</strong> をタップ
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button 
+                onClick={() => setIsInstallModalOpen(false)}
+                className="w-full py-3.5 bg-stone-800 text-white font-bold rounded-2xl active:scale-[0.98] transition-transform shadow-md"
+              >
+                とじる
+              </button>
             </motion.div>
           </>
         )}
