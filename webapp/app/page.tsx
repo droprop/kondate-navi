@@ -689,7 +689,6 @@ export default function Home() {
       {/* 設定モーダル */}
       <dialog 
         ref={settingDialogRef}
-        // @ts-expect-error closedby is a new web standard attribute
         closedby="any"
         onClose={() => setIsSettingOpen(false)}
         onClick={handleSettingLightDismiss}
@@ -760,7 +759,6 @@ export default function Home() {
       {/* インストール案内モーダル */}
       <dialog 
         ref={installDialogRef}
-        // @ts-expect-error closedby is a new web standard attribute
         closedby="any"
         onClose={() => setIsInstallModalOpen(false)}
         onClick={handleInstallLightDismiss}

@@ -45,3 +45,7 @@ results/
 results_bak/
 results_backup/
 *.bak 
+
+# Antigravity Agent Files
+.agents/
+skills-lock.json
