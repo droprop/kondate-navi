@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, 
@@ -14,7 +14,8 @@ import {
   Download,
   Smartphone,
   Share,
-  MoreVertical
+  MoreVertical,
+  MessageSquare
 } from 'lucide-react';
 
 const SCHOOL_CATEGORIES = {
@@ -89,6 +90,65 @@ export default function Home() {
   const [isStandalone, setIsStandalone] = useState(true); // 初期値trueでチラつき防止
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [deviceOS, setDeviceOS] = useState<'ios' | 'android' | 'other'>('other');
+
+  const settingDialogRef = useRef<HTMLDialogElement>(null);
+  const installDialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = settingDialogRef.current;
+    if (!dialog) return;
+    if (isSettingOpen) {
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    } else {
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+  }, [isSettingOpen]);
+
+  useEffect(() => {
+    const dialog = installDialogRef.current;
+    if (!dialog) return;
+    if (isInstallModalOpen) {
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    } else {
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+  }, [isInstallModalOpen]);
+
+  const handleSettingLightDismiss = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype) return;
+    const dialog = settingDialogRef.current;
+    if (!dialog) return;
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width
+    );
+    if (!isInDialog) {
+      setIsSettingOpen(false);
+    }
+  };
+
+  const handleInstallLightDismiss = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype) return;
+    const dialog = installDialogRef.current;
+    if (!dialog) return;
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width
+    );
+    if (!isInDialog) {
+      setIsInstallModalOpen(false);
+    }
+  };
 
   useEffect(() => {
     const savedSchool = localStorage.getItem('selectedSchool');
@@ -213,34 +273,52 @@ export default function Home() {
       .sort((a, b) => a.date - b.date);
   }, [currentMonthMenusData, selectedSchool, currentDate]);
 
+  const transitionUpdate = (updateFn: () => void) => {
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(updateFn);
+    } else {
+      updateFn();
+    }
+  };
+
   // スクロールリセットとビュー変更
   const changeView = (mode: 'today' | 'calendar') => {
-    setViewMode(mode);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    transitionUpdate(() => {
+      setViewMode(mode);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
   };
 
   const handlePrevDay = () => {
-    const d = new Date(currentDate);
-    d.setDate(d.getDate() - 1);
-    setCurrentDate(d);
+    transitionUpdate(() => {
+      const d = new Date(currentDate);
+      d.setDate(d.getDate() - 1);
+      setCurrentDate(d);
+    });
   };
 
   const handleNextDay = () => {
-    const d = new Date(currentDate);
-    d.setDate(d.getDate() + 1);
-    setCurrentDate(d);
+    transitionUpdate(() => {
+      const d = new Date(currentDate);
+      d.setDate(d.getDate() + 1);
+      setCurrentDate(d);
+    });
   };
 
   const handlePrevMonth = () => {
-    const d = new Date(currentDate);
-    d.setMonth(d.getMonth() - 1);
-    setCurrentDate(d);
+    transitionUpdate(() => {
+      const d = new Date(currentDate);
+      d.setMonth(d.getMonth() - 1);
+      setCurrentDate(d);
+    });
   };
 
   const handleNextMonth = () => {
-    const d = new Date(currentDate);
-    d.setMonth(d.getMonth() + 1);
-    setCurrentDate(d);
+    transitionUpdate(() => {
+      const d = new Date(currentDate);
+      d.setMonth(d.getMonth() + 1);
+      setCurrentDate(d);
+    });
   };
 
   if (loading) {
@@ -340,7 +418,7 @@ export default function Home() {
             <div className="flex items-center justify-between px-2">
               <button 
                 onClick={handlePrevDay} 
-                className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full"
+                className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
               >
                 <ChevronLeft size={28} />
               </button>
@@ -364,7 +442,7 @@ export default function Home() {
               </div>
               <button 
                 onClick={handleNextDay} 
-                className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full"
+                className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
               >
                 <ChevronRight size={28} />
               </button>
@@ -580,12 +658,13 @@ export default function Home() {
         )}
 
         {/* Footer inside main for better mobile scrolling visibility */}
-        <footer className="max-w-md mx-auto py-1 pb-2 px-4 text-center space-y-1">
-          <div className="bg-stone-100/50 rounded-xl p-2 flex flex-col items-center gap-1 border border-stone-200/50 shadow-sm">
+        <footer className="max-w-md mx-auto py-2 pb-6 px-4 text-center space-y-4">
+          
+          <div className="bg-stone-100/50 rounded-xl p-3 flex flex-col items-center gap-1.5 border border-stone-200/50 shadow-inner-sm">
             <p className="text-[10px] font-bold text-stone-600 leading-snug text-center">
               ※献立データはAIで自動読み取りしているため、一部表記ゆれ等がある場合があります。正しくは公式の献立表をご確認ください。
             </p>
-            <div className="w-8 h-px bg-stone-300 mt-0 mb-0.5" />
+            <div className="w-8 h-px bg-stone-300 mt-1 mb-1" />
             <p className="font-bold text-[9px] tracking-widest text-stone-400 uppercase">
               Personal Development Project
             </p>
@@ -593,169 +672,153 @@ export default function Home() {
               有志により開発・運営されており、自治体の公式サービスではありません。
             </p>
           </div>
+
+          {/* フィードバックリンク */}
+          <a 
+            href="https://forms.gle/tWGr4133CAUkTfdLA" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-stone-200 shadow-sm rounded-full text-[11px] font-bold text-stone-500 hover:text-orange-500 hover:border-orange-200 hover:shadow-md transition-all active:scale-95 mx-auto"
+          >
+            <MessageSquare size={14} />
+            <span>アプリへのご意見・ご要望はこちら</span>
+          </a>
         </footer>
       </main>
 
       {/* 設定モーダル */}
-      <AnimatePresence>
-        {isSettingOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              onClick={() => setIsSettingOpen(false)}
-              className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-40"
-            />
-            <motion.div 
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 250 }}
-              className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[3.5rem] z-50 pt-5 pb-6 px-4 sm:px-8 sm:pt-6 sm:pb-8 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.1)] border-t border-stone-100 max-h-[85vh] flex flex-col"
-            >
-              <div className="w-14 h-1.5 bg-stone-100 rounded-full mx-auto mb-4 shrink-0 cursor-pointer hover:bg-stone-200 transition-colors" onClick={() => setIsSettingOpen(false)} />
-              <div className="space-y-4 pb-2 overflow-hidden flex flex-col min-h-0">
-
-                <div className="flex items-center gap-4 shrink-0 px-2 pb-2">
-                  <div className="bg-orange-100 p-3 rounded-2xl text-orange-600 shrink-0">
-                    <School size={24} />
+      <dialog 
+        ref={settingDialogRef}
+        // @ts-expect-error closedby is a new web standard attribute
+        closedby="any"
+        onClose={() => setIsSettingOpen(false)}
+        onClick={handleSettingLightDismiss}
+        className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-[3.5rem] z-50 pt-5 pb-6 px-4 sm:px-8 sm:pt-6 sm:pb-8 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.1)] border-t border-stone-100 max-h-[85vh] flex flex-col"
+      >
+        <div className="w-14 h-1.5 bg-stone-100 rounded-full mx-auto mb-4 shrink-0 cursor-pointer hover:bg-stone-200 transition-colors" onClick={() => setIsSettingOpen(false)} />
+        <div className="space-y-4 pb-2 overflow-hidden flex flex-col min-h-0 w-full">
+          <div className="flex items-center gap-4 shrink-0 px-2 pb-2">
+            <div className="bg-orange-100 p-3 rounded-2xl text-orange-600 shrink-0">
+              <School size={24} />
+            </div>
+            <div className="flex flex-col">
+              <h2 className="text-xl font-bold text-stone-800 tracking-tight">学校の設定</h2>
+              <p className="text-xs text-stone-400 font-bold mt-1">お子様が通っている学校を選んでください</p>
+            </div>
+          </div>
+          <div className="space-y-5 overflow-y-auto flex-1 px-1 custom-scrollbar min-h-0">
+            {(Object.keys(SCHOOL_CATEGORIES) as Array<keyof typeof SCHOOL_CATEGORIES>).map((catKey) => {
+              const cat = SCHOOL_CATEGORIES[catKey];
+              return (
+                <div key={catKey} className="space-y-3">
+                  <div className="flex items-center gap-2 px-1">
+                    <span className="text-lg">{cat.icon}</span>
+                    <h3 className="text-sm font-black text-stone-400 uppercase tracking-widest">{cat.label}</h3>
                   </div>
-                  <div className="flex flex-col">
-                    <h2 className="text-xl font-bold text-stone-800 tracking-tight">学校の設定</h2>
-                    <p className="text-xs text-stone-400 font-bold mt-1">お子様が通っている学校を選んでください</p>
+                  <div className={`${catKey === 'juniorHigh' ? 'flex' : 'grid grid-cols-2'} gap-2`}>
+                    {cat.schools.map((s) => (
+                      <button
+                        key={s.name}
+                        onClick={() => {
+                          setSelectedSchool(s.name);
+                          setIsSettingOpen(false);
+                        }}
+                        className={`p-3 rounded-2xl text-sm font-bold text-left transition-all border flex-1 ${
+                          selectedSchool === s.name
+                            ? 'bg-orange-500 text-white border-orange-400 shadow-lg shadow-orange-500/20 active:scale-95'
+                            : 'bg-stone-50 text-stone-600 border-stone-100 hover:bg-stone-100 active:bg-stone-200'
+                        }`}
+                      >
+                        {s.name}
+                      </button>
+                    ))}
                   </div>
                 </div>
-                <div className="space-y-5 overflow-y-auto flex-1 px-1 custom-scrollbar min-h-0">
-                  {(Object.keys(SCHOOL_CATEGORIES) as Array<keyof typeof SCHOOL_CATEGORIES>).map((catKey) => {
-                    const cat = SCHOOL_CATEGORIES[catKey];
-                    return (
-                      <div key={catKey} className="space-y-3">
-                        <div className="flex items-center gap-2 px-1">
-                          <span className="text-lg">{cat.icon}</span>
-                          <h3 className="text-sm font-black text-stone-400 uppercase tracking-widest">{cat.label}</h3>
-                        </div>
-                        <div className={`${catKey === 'juniorHigh' ? 'flex' : 'grid grid-cols-2'} gap-2`}>
-                          {cat.schools.map((s) => (
-                            <button
-                              key={s.name}
-                              onClick={() => {
-                                setSelectedSchool(s.name);
-                                setIsSettingOpen(false);
-                              }}
-                              className={`p-3 rounded-2xl text-sm font-bold text-left transition-all border flex-1 ${
-                                selectedSchool === s.name
-                                  ? 'bg-orange-500 text-white border-orange-400 shadow-lg shadow-orange-500/20 active:scale-95'
-                                  : 'bg-stone-50 text-stone-600 border-stone-100 hover:bg-stone-100 active:bg-stone-200'
-                              }`}
-                            >
-                              {s.name}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+              );
+            })}
+          </div>
 
-                <div className="flex justify-center shrink-0 pt-2 pb-0">
-                  <span className="flex items-center gap-1 text-stone-400 font-bold text-[11px] px-3 py-1 bg-stone-50 rounded-full">
-                    <ChevronDown size={14} /> リストを下へスクロールできます
-                  </span>
-                </div>
+          <div className="flex justify-center shrink-0 pt-2 pb-0">
+            <span className="flex items-center gap-1 text-stone-400 font-bold text-[11px] px-3 py-1 bg-stone-50 rounded-full">
+              <ChevronDown size={14} /> リストを下へスクロールできます
+            </span>
+          </div>
 
-                <p className="text-[9px] text-stone-400 font-bold leading-relaxed text-center mt-3 shrink-0 px-4">
-                  ※選択した学校の献立が次回から自動的に表示されます
-                </p>
+          <p className="text-[9px] text-stone-400 font-bold leading-relaxed text-center mt-3 shrink-0 px-4">
+            ※選択した学校の献立が次回から自動的に表示されます
+          </p>
 
-                <button 
-                  onClick={() => setIsSettingOpen(false)}
-                  className="w-full mt-2 pt-3 pb-1 text-stone-300 font-black text-xs uppercase tracking-widest active:text-orange-400 transition shrink-0"
-                >
-                  Close Settings
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          <button 
+            onClick={() => setIsSettingOpen(false)}
+            className="w-full mt-2 pt-3 pb-1 text-stone-500 font-black text-xs uppercase tracking-widest active:text-orange-500 transition shrink-0 hover:text-stone-600"
+          >
+            Close Settings
+          </button>
+        </div>
+      </dialog>
 
       {/* インストール案内モーダル */}
-      <AnimatePresence>
-        {isInstallModalOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              onClick={() => setIsInstallModalOpen(false)}
-              className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-40"
-            />
-            <motion.div 
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "100%", opacity: 0 }}
-              transition={{ type: "spring", damping: 28, stiffness: 250 }}
-              className="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-white rounded-[2rem] z-50 p-6 shadow-2xl border border-stone-100 flex flex-col"
-            >
-              <div className="flex flex-col items-center text-center space-y-4 mb-6">
-                <div className="bg-orange-100 p-3 rounded-2xl text-orange-500 mb-2">
-                  <Smartphone size={32} />
-                </div>
-                <h2 className="text-xl font-bold text-stone-800 tracking-tight">スマホにアプリとして追加</h2>
-                <p className="text-sm text-stone-500 leading-relaxed font-medium">
-                  ホーム画面に追加すると、次回からアイコンをタップするだけで<strong>サクッと全画面</strong>で給食を確認できるようになります！
+      <dialog 
+        ref={installDialogRef}
+        // @ts-expect-error closedby is a new web standard attribute
+        closedby="any"
+        onClose={() => setIsInstallModalOpen(false)}
+        onClick={handleInstallLightDismiss}
+        className="fixed bottom-4 left-0 right-0 w-[calc(100%-2rem)] max-w-md mx-auto bg-white rounded-[2rem] z-50 p-6 shadow-2xl border border-stone-100 flex flex-col"
+      >
+        <div className="flex flex-col items-center text-center space-y-4 mb-6">
+          <div className="bg-orange-100 p-3 rounded-2xl text-orange-500 mb-2">
+            <Smartphone size={32} />
+          </div>
+          <h2 className="text-xl font-bold text-stone-800 tracking-tight">スマホにアプリとして追加</h2>
+          <p className="text-sm text-stone-500 leading-relaxed font-medium">
+            ホーム画面に追加すると、次回からアイコンをタップするだけで<strong>サクッと全画面</strong>で給食を確認できるようになります！
+          </p>
+        </div>
+
+        <div className="bg-stone-50 rounded-2xl p-5 mb-6 border border-stone-100">
+          {deviceOS === 'ios' ? (
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
+                <p className="text-sm font-medium text-stone-700 flex-1">
+                  画面下部のメニューから <Share size={16} className="inline text-blue-500 mx-1" /> <strong>共有ボタン</strong> をタップ
                 </p>
               </div>
-
-              <div className="bg-stone-50 rounded-2xl p-5 mb-6 border border-stone-100">
-                {deviceOS === 'ios' ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
-                      <p className="text-sm font-medium text-stone-700 flex-1">
-                        画面下部のメニューから <Share size={16} className="inline text-blue-500 mx-1" /> <strong>共有ボタン</strong> をタップ
-                      </p>
-                    </div>
-                    <div className="w-px h-4 bg-stone-300 ml-4"></div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
-                      <p className="text-sm font-medium text-stone-700 flex-1">
-                        少し下にスクロールして<br/><strong>「ホーム画面に追加」</strong>をタップ
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
-                      <p className="text-sm font-medium text-stone-700 flex-1">
-                        画面右上（または右下）の <MoreVertical size={16} className="inline text-stone-500 mx-1" /> <strong>メニュー</strong> をタップ
-                      </p>
-                    </div>
-                    <div className="w-px h-4 bg-stone-300 ml-4"></div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
-                      <p className="text-sm font-medium text-stone-700 flex-1">
-                        <strong>「ホーム画面に追加」</strong> または<br/><strong>「アプリをインストール」</strong> をタップ
-                      </p>
-                    </div>
-                  </div>
-                )}
+              <div className="w-px h-4 bg-stone-300 ml-4"></div>
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
+                <p className="text-sm font-medium text-stone-700 flex-1">
+                  少し下にスクロールして<br/><strong>「ホーム画面に追加」</strong>をタップ
+                </p>
               </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
+                <p className="text-sm font-medium text-stone-700 flex-1">
+                  画面右上（または右下）の <MoreVertical size={16} className="inline text-stone-500 mx-1" /> <strong>メニュー</strong> をタップ
+                </p>
+              </div>
+              <div className="w-px h-4 bg-stone-300 ml-4"></div>
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">2</div>
+                <p className="text-sm font-medium text-stone-700 flex-1">
+                  <strong>「ホーム画面に追加」</strong> または<br/><strong>「アプリをインストール」</strong> をタップ
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
-              <button 
-                onClick={() => setIsInstallModalOpen(false)}
-                className="w-full py-3.5 bg-stone-800 text-white font-bold rounded-2xl active:scale-[0.98] transition-transform shadow-md"
-              >
-                とじる
-              </button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+        <button 
+          onClick={() => setIsInstallModalOpen(false)}
+          className="w-full py-3.5 bg-stone-800 text-white font-bold rounded-2xl active:scale-[0.98] transition-transform shadow-md"
+        >
+          とじる
+        </button>
+      </dialog>
 
     </div>
   );
