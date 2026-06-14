@@ -2,30 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* このアプリはライトテーマ専用（ダークモード端末でも overscroll 等が黒くならないように宣言） */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-glow: #3b82f644;
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --card-border: rgba(148, 163, 184, 0.1);
-  --accent: #f59e0b;
-  --success: #10b981;
-  --error: #ef4444;
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --glass-blur: 12px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617;
-    --foreground: #f8fafc;
-    --primary: #3b82f6;
-    --primary-glow: #3b82f622;
-    --card-bg: rgba(15, 23, 42, 0.6);
-    --card-border: rgba(255, 255, 255, 0.05);
-    --glass-blur: 20px;
-  }
+  color-scheme: light;
+  --background: #FFFDF9; /* 温かみのある紙色（page.tsx の bg と統一） */
+  --foreground: #292524; /* stone-800 */
 }
 
 * {
@@ -33,32 +14,36 @@
 }
 
 body {
-  font-family: var(--font-sans);
+  /* 欧文・数字は Outfit、日本語は各OSのシステム角ゴシック（iOS=ヒラギノ / Android=Noto / Win=游ゴシック） */
+  font-family: var(--font-outfit), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP',
+    'Yu Gothic UI', 'Yu Gothic', Meiryo, sans-serif;
   background: var(--background);
   color: var(--foreground);
-}
-
-/* Glassmorphism utility classes */
-.glass-pane {
-  background: var(--card-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--card-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
-}
-
-.glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--card-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* システムフォントを各OSで最も鮮明に表示する */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom Native Scrollbars */
 html, body, .custom-scrollbar {
   scrollbar-color: #fdba74 #FAF8F5; /* orange-300, warm cream background */
   scrollbar-width: thin;
+}
+
+/* お箸アラート用バウンス（無限ループにせず3回で止める） */
+@keyframes chopstick-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25%); }
+}
+.chopstick-bounce {
+  animation: chopstick-bounce 0.6s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chopstick-bounce {
+    animation: none;
+  }
 }
 
 /* View Transitions animations */
@@ -113,7 +98,7 @@ dialog {
 dialog[open] {
   opacity: 1;
   transform: translateY(0);
-  
+
   @starting-style {
     opacity: 0;
     transform: translateY(100%);
@@ -135,7 +120,7 @@ dialog[open]::backdrop {
   background-color: rgba(28, 25, 23, 0.45);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  
+
   @starting-style {
     background-color: rgba(28, 25, 23, 0);
     backdrop-filter: blur(0px);
@@ -154,4 +139,3 @@ dialog[open]::backdrop {
     }
   }
 }
-

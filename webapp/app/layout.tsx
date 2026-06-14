@@ -3,9 +3,12 @@ import { Outfit } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 
+// 欧文・数字用（日付の大きな数字や栄養価の数値に使用）。
+// 日本語本文は端末のシステムフォント（iOS=ヒラギノ角ゴ / Android=Noto Sans CJK / Win=游ゴシック）を
+// 使うため Web フォントは読み込まない。0バイトで一瞬表示でき、各OSで最も鮮明に出る。
 const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-outfit",
 });
 
 export const viewport: Viewport = {

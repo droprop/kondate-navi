@@ -4,14 +4,26 @@
   "description": "浦安市の小学校（第一・第二調理場）・中学校（第三調理場）の給食献立をスマホでさっと確認。公開された献立表を分かりやすく表示する、保護者による非公式の献立予定表アプリです。毎日のメニューやお箸の要否をすぐにチェックできます。",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#FFFDF9",
   "theme_color": "#f97316",
   "icons": [
     {
-      "src": "/icon.png",
-      "sizes": "192x192 512x512",
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
