@@ -110,6 +110,19 @@ def main():
     logger.info(f"=== Pipeline Processing Complete ===")
     logger.info(f"Artifacts ({target_year}_{target_month}) have been successfully generated.")
 
+    # Step 3.5: Validate aggregated data (quality gate before publishing)
+    logger.info(f"[Step 3.5] Running Data Quality Validation...")
+    validate_cmd = [
+        sys.executable, "src/validate_data.py",
+        "--year", str(target_year),
+        "--month", str(target_month)
+    ]
+    result = subprocess.run(validate_cmd)
+    if result.returncode != 0:
+        logger.error("Data validation found blocking errors. Aborting before publish to avoid serving bad data.")
+        logger.error("Review the [VALIDATE] errors above. Re-run transcription with --force if needed.")
+        sys.exit(1)
+
     # Step 4: Publish (Copy local + Push to GitHub)
     if args.push:
         logger.info(f"[Step 4] Running Publish Process...")
