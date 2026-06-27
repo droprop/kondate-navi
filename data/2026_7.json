@@ -157,7 +157,7 @@
         "🥛 牛乳",
         "★🥪 セルフサンド（コッペパン・カレイフライ・ソース）",
         "🥦 ブロッコリーのサラダ",
-        "🥣 コーンポタージュ"
+        "🌽 コーンポタージュ"
       ],
       "ingredients": {
         "energy_source": [
@@ -203,12 +203,12 @@
     {
       "date": 7,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🍖 星型ハンバーグ",
-        "🥗 ポテトサラダ",
+        "🥔 ポテトサラダ",
         "🥣 魚麺と冬瓜のすまし汁",
         "🍮 七夕ゼリー"
       ],
@@ -354,7 +354,7 @@
     {
       "date": 10,
       "day_of_week": "金",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🐖 豚キムチ丼",
@@ -429,7 +429,7 @@
           "豆腐",
           "みそ",
           "豆乳",
-          "かつおぶし",
+          "かつお節",
           "のり"
         ],
         "body_regulating": [
@@ -513,8 +513,8 @@
       "menu_items": [
         "🥛 牛乳",
         "★🍜 野菜みそラーメン",
-        "🥗 さつまいもサラダ",
-        "🍓 ストロベリーカスタードタルト"
+        "🍠 さつまいもサラダ",
+        "🥧 ストロベリーカスタードタルト"
       ],
       "ingredients": {
         "energy_source": [
@@ -582,13 +582,13 @@
         ],
         "body_regulating": [
           "たまねぎ",
-          "にんにく",
+          "にんじん",
           "ズッキーニ",
           "かぼちゃ",
           "なす",
           "枝豆",
           "トマト",
-          "にんじん",
+          "にんにく",
           "しょうが",
           "すいか"
         ]
@@ -631,6 +631,7 @@
         "body_building": [
           "牛乳",
           "豚肉",
+          "鶏肉",
           "生揚げ",
           "さつま揚げ",
           "昆布"
@@ -665,7 +666,7 @@
       "day_of_week": "木",
       "needs_chopsticks": true,
       "menu_items": [
-        "★🍚 油揚げと白菜のオイスター丼（麦ご飯）",
+        "★🍚 油揚げと白菜のオイスター丼(麦ご飯)",
         "🥛 牛乳",
         "🥣 卵とわかめのスープ",
         "🍟 スパイシーポテト"
@@ -830,7 +831,7 @@
       "menu_items": [
         "🍚 ご飯",
         "🥛 牛乳",
-        "★🥩 星型ハンバーグバーベキューソースかけ",
+        "★🍖 星型ハンバーグバーベキューソースかけ",
         "🥔 ツナじゃが",
         "🥗 オクラ入り春雨サラダ",
         "🍮 七夕ゼリー"
@@ -884,7 +885,7 @@
       "menu_items": [
         "🍚 ご飯",
         "🥛 牛乳",
-        "★🍢 ちくわの磯辺揚げ（2）",
+        "★🍢 ちくわの磯辺揚げ(2)",
         "★🍲 冬瓜とうずら卵のオイスター煮",
         "🥗 わかめとこんにゃくのサラダ"
       ],
@@ -935,10 +936,10 @@
       "day_of_week": "木",
       "needs_chopsticks": false,
       "menu_items": [
-        "★🥪 セルフサンド（コッペパン メンチカツ ソース）",
+        "★🥪 セルフサンド(コッペパン メンチカツ ソース)",
         "🥛 牛乳",
         "🥣 豆と野菜のスープ",
-        "🍲 ラタトゥイユ（ツナ）",
+        "🍅 ラタトゥイユ(ツナ)",
         "🍋 はちみつレモンゼリー"
       ],
       "ingredients": {
@@ -964,7 +965,7 @@
           "人参",
           "玉葱",
           "とうもろこし",
-          "キャ massive",
+          "キャベツ",
           "セロリー",
           "にんにく",
           "なす",
@@ -994,7 +995,7 @@
         "🥛 牛乳",
         "★🐟 あじのスタミナ揚げ",
         "🥣 卵入りおろし汁",
-        "🍲 ひじきの炒り煮",
+        "🍱 ひじきの炒り煮",
         "🍊 冷凍みかん"
       ],
       "ingredients": {
@@ -1101,7 +1102,7 @@
       "menu_items": [
         "🍚 ご飯",
         "🥛 牛乳",
-        "★🐟 ししゃもの唐揚げ（2）",
+        "★🐟 ししゃもの唐揚げ(2)",
         "★🍲 家常豆腐",
         "🥗 えのきサラダ",
         "🍮 アセロラゼリー"
@@ -1154,10 +1155,10 @@
       "day_of_week": "水",
       "needs_chopsticks": true,
       "menu_items": [
-        "★🍚 豚丼（麦ご飯）",
+        "★🐖 豚丼(麦ご飯)",
         "🥛 牛乳",
         "🥣 ライスヌードルのスープ",
-        "🍨 白玉サイダーゼリーポンチ"
+        "🍡 白玉サイダーゼリーポンチ"
       ],
       "ingredients": {
         "energy_source": [
@@ -1255,7 +1256,7 @@
     {
       "date": 1,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1304,7 +1305,7 @@
     {
       "date": 2,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍛 キーマカレー（ごはん）",
@@ -1354,7 +1355,7 @@
     {
       "date": 3,
       "day_of_week": "金",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1404,11 +1405,10 @@
     {
       "date": 6,
       "day_of_week": "月",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
-        "🍚 ごはん",
         "🥛 牛乳",
-        "★🐖 豚キムチ丼",
+        "★🍚 豚キムチ丼",
         "🥣 わかめとコーンの春雨スープ",
         "🫘 豆入りゴーヤチップス"
       ],
@@ -1438,7 +1438,7 @@
           "にんにく",
           "とうもろこし",
           "えのき",
-          "にがうり",
+          "苦瓜",
           "かぼちゃ"
         ]
       },
@@ -1456,7 +1456,7 @@
     {
       "date": 7,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1558,7 +1558,7 @@
     {
       "date": 9,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
@@ -1611,13 +1611,13 @@
     {
       "date": 10,
       "day_of_week": "金",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
         "★🐟 鮭のスパイシー揚げ",
         "🥒 オクラときゅうりの海苔和え",
-        "🥔 じゃがいものそぼろ煮"
+        "★🍲 じゃがいものそぼろ煮"
       ],
       "ingredients": {
         "energy_source": [
@@ -1659,10 +1659,10 @@
     {
       "date": 13,
       "day_of_week": "月",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
-        "★🥩 プルコギ丼（麦ごはん）",
+        "★🍚 プルコギ丼（麦ごはん）",
         "🥣 和風ワンタンスープ",
         "🍮 サイダーゼリーポンチ"
       ],
@@ -1710,7 +1710,7 @@
     {
       "date": 14,
       "day_of_week": "火",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍜 野菜みそラーメン",
@@ -1760,7 +1760,7 @@
     {
       "date": 15,
       "day_of_week": "水",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🍚 ごはん",
         "★🥟 焼き棒餃子",
@@ -1813,7 +1813,7 @@
     {
       "date": 16,
       "day_of_week": "木",
-      "needs_chopsticks": false,
+      "needs_chopsticks": true,
       "menu_items": [
         "🥛 牛乳",
         "★🍛 夏野菜ツナカレー（ごはん）",
