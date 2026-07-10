@@ -37,7 +37,8 @@ export default function Home() {
 
     // PWA判定とOS判定
     if (typeof window !== 'undefined') {
-      const isPwa = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+      const navigatorWithStandalone = window.navigator as Navigator & { standalone?: boolean };
+      const isPwa = window.matchMedia('(display-mode: standalone)').matches || navigatorWithStandalone.standalone === true;
       setIsStandalone(isPwa);
 
       const ua = window.navigator.userAgent.toLowerCase();
@@ -164,8 +165,11 @@ export default function Home() {
   }, [currentMonthMenusData, selectedSchool, currentDate]);
 
   const transitionUpdate = (updateFn: () => void) => {
-    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-      (document as any).startViewTransition(updateFn);
+    const transitionDocument = document as Document & {
+      startViewTransition?: (callback: () => void) => void;
+    };
+    if (typeof transitionDocument.startViewTransition === 'function') {
+      transitionDocument.startViewTransition(updateFn);
     } else {
       updateFn();
     }
@@ -252,14 +256,14 @@ export default function Home() {
               <School size={40} />
             </div>
             <div className="space-y-2">
-              <h2 className="text-lg font-bold text-stone-700">まずは学校を選んでね！</h2>
-              <p className="text-sm text-stone-500 px-4 leading-relaxed">学校を選択すると、お子様の調理場に合わせた献立が自動で表示されます。</p>
+              <h2 className="text-lg font-bold text-stone-700">通っている学校を選んでね！</h2>
+              <p className="text-sm text-stone-500 px-4 leading-relaxed">学校を選ぶと、今日・明日の給食や今月の献立を確認できます。</p>
             </div>
             <button
               onClick={() => setIsSettingOpen(true)}
               className="w-full bg-orange-500 text-white py-3 rounded-2xl font-bold shadow-lg shadow-orange-500/20 active:scale-[0.98] transition"
             >
-              学校のリストを見る
+              学校を選ぶ
             </button>
           </motion.div>
         )}
@@ -305,17 +309,22 @@ export default function Home() {
         )}
 
         {/* Footer inside main for better mobile scrolling visibility */}
-        <footer className="max-w-md mx-auto py-2 pb-6 px-4 text-center space-y-4">
-
-          <div className="bg-stone-100/50 rounded-xl p-3 flex flex-col items-center gap-1.5 border border-stone-200/50 shadow-inner-sm">
-            <p className="text-[10px] font-bold text-stone-600 leading-snug text-center">
-              ※献立データはAIで自動読み取りしているため、一部表記ゆれ等がある場合があります。正しくは公式の献立表をご確認ください。
-            </p>
-            <div className="w-8 h-px bg-stone-300 mt-1 mb-1" />
-            <p className="text-[10px] font-medium leading-relaxed max-w-[280px] mx-auto text-stone-500">
-              個人開発の非公式アプリです。有志により開発・運営されており、自治体の公式サービスではありません。
-            </p>
-          </div>
+        <footer className="max-w-md mx-auto pt-4 pb-6 px-4 text-center space-y-3 border-t border-stone-200">
+          <p className="text-[10px] font-medium text-stone-500 leading-relaxed max-w-[320px] mx-auto">
+            浦安市が公開する献立表をAIで読み取り、見やすく表示しています。正確な情報は
+            <a
+              href="https://www.city.urayasu.lg.jp/kodomo/gakko/kyushoku/1016584.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold underline decoration-stone-300 underline-offset-2 hover:text-orange-600"
+            >
+              公式の献立表
+            </a>
+            をご確認ください。
+          </p>
+          <p className="text-[10px] font-medium text-stone-400">
+            保護者が運営する、浦安市の非公式アプリです。
+          </p>
 
           {/* フィードバックリンク */}
           <a

@@ -66,7 +66,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 "name": "こんだてボード",
-                "alternateName": ["浦安市の給食献立 - こんだてボード"],
+                "alternateName": ["浦安こんだてボード"],
                 "url": "https://kondate-navi.web.app"
               },
               {
