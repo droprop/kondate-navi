@@ -1,10 +1,11 @@
 export const dynamic = 'force-static'
 import { MetadataRoute } from 'next'
+import { SITE_URL } from './site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://kondate-navi.web.app',
+      url: `${SITE_URL}/`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,

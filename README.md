@@ -1,6 +1,6 @@
 # 🍱 浦安市の給食献立 - こんだてボード (浦安市 小・中学校 給食非公式ポータル)
 
-👉 **[こんだてボード](https://kondate-navi.web.app/)** （本番環境）
+👉 **[こんだてボード](https://kondateboard.rndesk.com/)** （本番環境）
 
 ## 📌 プロジェクト概要
 浦安市の学校給食（小学校 全17校 & 中学校 全10校相当）の献立PDFを毎月自動でダウンロードし、GeminiのAIパワーを使って構造化データ（JSON）に変換。Firebase上のモダンなWebアプリ（Next.js）でスマホからサクサク見れるようにするPWA対応アプリです。
@@ -35,7 +35,7 @@ python src\run_pipeline.py --year 2026 --month 4 --push
 5. 完成したJSONを GitHub Pages の公開ディレクトリへ反映（アプリは自動更新されます）
 
 スクリプトが「Pipeline Processing Complete」と表示したら運用完了です。
-[浦安市の給食献立 - こんだてボード](https://kondate-navi.web.app/) で最新の年月が表示されるか確認してください。
+[浦安市の給食献立 - こんだてボード](https://kondateboard.rndesk.com/) で最新の年月が表示されるか確認してください。
 
 ---
 

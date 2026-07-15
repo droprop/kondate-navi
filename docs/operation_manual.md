@@ -49,7 +49,7 @@ python src/run_pipeline.py --year 2026 --month 12
    - ※AIの特性上、「豚汁」が「とんじる」になる等の微妙な表記揺れは発生しますが許容範囲とします。
 
 4. **Firebase反映確認**
-   - Webアプリ側（`https://kondate-navi.web.app`）をリロードして、該当月のデータが正しく表示される（またはコンソールの `Network` タブで新しいデータの取得に成功している）ことを確認します。
+   - Webアプリ側（`https://kondateboard.rndesk.com`）をリロードして、該当月のデータが正しく表示される（またはコンソールの `Network` タブで新しいデータの取得に成功している）ことを確認します。
    - キャッシュ回避のため、アップロード時には `cache-control: no-store` が付与されています。
 
 ---

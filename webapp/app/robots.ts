@@ -1,5 +1,6 @@
 export const dynamic = 'force-static'
 import { MetadataRoute } from 'next'
+import { SITE_URL } from './site'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://kondate-navi.web.app/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }
