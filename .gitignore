@@ -25,6 +25,10 @@ key.json
 # IDE
 .vscode/
 
+# Local agent settings and generated design previews
+.claude/
+webapp/design-options/
+
 # Build artifacts
 dist/
 build/
