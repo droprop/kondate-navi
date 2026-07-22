@@ -1,6 +1,7 @@
 'use client';
 
 import { UtensilsCrossed } from 'lucide-react';
+import SiteFooter from './SiteFooter';
 
 /**
  * 初回ロード用スケルトン。
@@ -16,13 +17,19 @@ export default function LoadingSkeleton() {
             <div className="bg-orange-100 p-1.5 rounded-lg text-orange-600">
               <UtensilsCrossed size={18} />
             </div>
-            <h1 className="text-base font-bold text-stone-700 tracking-tight">こんだてボード</h1>
+            <h1 className="text-base font-bold text-stone-700 tracking-tight">
+              <span className="sr-only">浦安市の給食献立 </span>
+              こんだてボード
+            </h1>
           </div>
           <div className="h-8 w-24 bg-stone-100 rounded-full animate-pulse" />
         </div>
       </header>
 
       <main className="max-w-md mx-auto p-3 sm:p-4 space-y-4">
+        <p className="text-xs font-medium text-stone-500 text-center">
+          浦安市の小学校・中学校の給食献立を読み込んでいます。
+        </p>
         <div className="h-11 bg-stone-100 rounded-2xl animate-pulse" />
         <div className="flex justify-center py-2">
           <div className="h-16 w-32 bg-stone-100 rounded-2xl animate-pulse" />
@@ -31,6 +38,7 @@ export default function LoadingSkeleton() {
         <div className="h-64 bg-stone-100 rounded-3xl animate-pulse" />
         <div className="h-16 bg-stone-100 rounded-2xl animate-pulse" />
         <div className="h-40 bg-stone-100 rounded-3xl animate-pulse" />
+        <SiteFooter />
       </main>
     </div>
   );
