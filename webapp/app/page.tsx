@@ -252,7 +252,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-3xl p-8 text-center shadow-sm border border-orange-100 space-y-4"
           >
-            <div className="bg-orange-50 w-20 h-20 rounded-2xl flex items-center justify-center text-orange-400 mx-auto">
+            <div className="bg-orange-50 w-20 h-20 rounded-2xl flex items-center justify-center text-orange-500 mx-auto">
               <School size={40} />
             </div>
             <div className="space-y-2">
@@ -272,13 +272,13 @@ export default function Home() {
         <div className="flex bg-stone-100 p-1 rounded-2xl shadow-inner-sm">
           <button
             onClick={() => changeView('today')}
-            className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${viewMode === 'today' ? 'bg-white text-orange-600 shadow-sm' : 'text-stone-500'}`}
+            className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${viewMode === 'today' ? 'bg-white text-orange-600 shadow-sm' : 'text-stone-600'}`}
           >
             今日
           </button>
           <button
             onClick={() => changeView('calendar')}
-            className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${viewMode === 'calendar' ? 'bg-white text-orange-600 shadow-sm' : 'text-stone-500'}`}
+            className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${viewMode === 'calendar' ? 'bg-white text-orange-600 shadow-sm' : 'text-stone-600'}`}
           >
             一覧
           </button>

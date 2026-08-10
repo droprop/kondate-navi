@@ -53,7 +53,7 @@ export default function SettingsDialog({ isOpen, onClose, selectedSchool, onSele
                       className={`p-3 rounded-2xl text-sm font-bold text-left transition-all border flex-1 ${
                         selectedSchool === s.name
                           ? 'bg-orange-500 text-white border-orange-400 shadow-lg shadow-orange-500/20 active:scale-95'
-                          : 'bg-stone-50 text-stone-600 border-stone-100 hover:bg-stone-100 active:bg-stone-200'
+                          : 'bg-stone-50 text-stone-500 border-stone-100 hover:bg-stone-100 active:bg-stone-200'
                       }`}
                     >
                       {s.name}
@@ -71,13 +71,13 @@ export default function SettingsDialog({ isOpen, onClose, selectedSchool, onSele
           </span>
         </div>
 
-        <p className="text-[10px] text-stone-500 font-medium leading-relaxed text-center mt-3 shrink-0 px-4">
+        <p className="text-[11px] text-stone-500 font-medium leading-relaxed text-center mt-3 shrink-0 px-4">
           ※選択した学校の献立が次回から自動的に表示されます
         </p>
 
         <button
           onClick={onClose}
-          className="w-full mt-2 pt-3 pb-1 text-stone-500 font-bold text-sm tracking-widest active:text-orange-500 transition shrink-0 hover:text-stone-600"
+          className="w-full mt-2 pt-3 pb-1 text-stone-500 font-bold text-sm tracking-widest active:text-orange-500 transition shrink-0 hover:text-stone-800"
         >
           とじる
         </button>

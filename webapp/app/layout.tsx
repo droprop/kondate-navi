@@ -59,6 +59,18 @@ export default function RootLayout({
   return (
     <html lang="ja" className={outfit.variable}>
       <head>
+        {/*
+          Firebase Hosting は kondate-navi.web.app / kondate-navi.firebaseapp.com でも
+          同一の内容を配信してしまい、Google が旧ホストを正規 URL に選んで
+          カスタムドメイン側がインデックスから外れる。firebase.json はホスト名で
+          リダイレクトを分岐できないため、正規ホスト以外はここで送り返す。
+          描画前に実行させたいので next/script ではなくインラインで置く。
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var c=${JSON.stringify(new URL(SITE_URL).hostname)},h=location.hostname;if(h===c||h==="localhost"||h==="127.0.0.1"||h.endsWith(".local"))return;location.replace("https://"+c+location.pathname+location.search+location.hash);}catch(e){}})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -94,7 +106,6 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-
       </body>
       <GoogleAnalytics gaId="G-WJG0XFQ7X8" />
     </html>

@@ -21,7 +21,7 @@ export default function InstallDialog({ isOpen, onClose, deviceOS }: InstallDial
       className="fixed bottom-4 left-0 right-0 w-[calc(100%-2rem)] max-w-md mx-auto bg-white rounded-[2rem] z-50 p-6 shadow-2xl border border-stone-100 flex flex-col"
     >
       <div className="flex flex-col items-center text-center space-y-4 mb-6">
-        <div className="bg-orange-100 p-3 rounded-2xl text-orange-500 mb-2">
+        <div className="bg-orange-100 p-3 rounded-2xl text-orange-600 mb-2">
           <Smartphone size={32} />
         </div>
         <h2 className="text-xl font-bold text-stone-800 tracking-tight">スマホにアプリとして追加</h2>
@@ -36,7 +36,7 @@ export default function InstallDialog({ isOpen, onClose, deviceOS }: InstallDial
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
               <p className="text-sm font-medium text-stone-700 flex-1">
-                画面下部のメニューから <Share size={16} className="inline text-blue-500 mx-1" /> <strong>共有ボタン</strong> をタップ
+                画面下部のメニューから <Share size={16} className="inline text-blue-600 mx-1" /> <strong>共有ボタン</strong> をタップ
               </p>
             </div>
             <div className="w-px h-4 bg-stone-300 ml-4"></div>
@@ -52,7 +52,7 @@ export default function InstallDialog({ isOpen, onClose, deviceOS }: InstallDial
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-stone-600 font-bold shadow-sm shrink-0">1</div>
               <p className="text-sm font-medium text-stone-700 flex-1">
-                画面右上（または右下）の <MoreVertical size={16} className="inline text-stone-500 mx-1" /> <strong>メニュー</strong> をタップ
+                画面右上（または右下）の <MoreVertical size={16} className="inline text-stone-600 mx-1" /> <strong>メニュー</strong> をタップ
               </p>
             </div>
             <div className="w-px h-4 bg-stone-300 ml-4"></div>

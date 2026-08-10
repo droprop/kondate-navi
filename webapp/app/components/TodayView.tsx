@@ -26,12 +26,12 @@ export default function TodayView({
         <button
           onClick={onPrevDay}
           aria-label="前の日へ"
-          className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
+          className="p-2 text-orange-500 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
         >
           <ChevronLeft size={28} />
         </button>
         <div className="text-center flex flex-col items-center">
-          <div className="font-en text-[10px] font-black text-stone-500 uppercase tracking-widest leading-none mb-1">
+          <div className="font-en text-[11px] font-black text-stone-500 uppercase tracking-widest leading-none mb-1">
             {currentDate.getFullYear()} / {currentDate.getMonth() + 1}
           </div>
           <div className="flex items-baseline gap-1">
@@ -51,7 +51,7 @@ export default function TodayView({
         <button
           onClick={onNextDay}
           aria-label="次の日へ"
-          className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
+          className="p-2 text-orange-500 active:scale-95 transition hover:bg-orange-50 rounded-full mb-5"
         >
           <ChevronRight size={28} />
         </button>
@@ -80,19 +80,20 @@ export default function TodayView({
               {displayMenu.needs_chopsticks ? (
                 <div className="bg-orange-500 text-white rounded-2xl py-[9px] px-4 flex items-center justify-center gap-3 shadow-md shadow-orange-500/20 ring-1 ring-white/20">
                   <span className="text-xl chopstick-bounce">🥢</span>
-                  <span className="font-bold text-sm tracking-wide">今日はおはしを持っていこう！</span>
+                  {/* 白×オレンジは AA 通常基準(4.5)に届かないため、文字を大きくして実際の可読性を確保する */}
+                  <span className="font-bold text-base tracking-wide">今日はおはしを持っていこう！</span>
                 </div>
               ) : (
-                <div className="bg-stone-100 text-stone-500 rounded-2xl py-[9px] px-4 flex items-center justify-center gap-3 border border-stone-200/50">
-                  <span className="text-xl opacity-50">🥄</span>
-                  <span className="text-sm font-bold tracking-wide">今日はおはしいらないよ（スプーン等）</span>
+                <div className="bg-stone-100 text-stone-600 rounded-2xl py-[9px] px-4 flex items-center justify-center gap-3 border border-stone-200/50">
+                  <span className="text-xl">🥄</span>
+                  <span className="text-base font-bold tracking-wide">今日はおはしいらないよ（スプーン等）</span>
                 </div>
               )}
 
               {/* メニューリスト */}
               <div className="bg-white rounded-3xl shadow-sm border border-stone-100 overflow-hidden">
                 <div className="px-5 py-3 border-b border-stone-50 bg-stone-50/50 flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-stone-500 tracking-widest">きょうのこんだて</span>
+                  <span className="text-[11px] font-bold text-stone-500 tracking-widest">きょうのこんだて</span>
                 </div>
                 <ul className="divide-y divide-stone-50">
                   {sortMenuItems(displayMenu.menu_items).map((item, i) => {
@@ -127,7 +128,7 @@ export default function TodayView({
                   <div key={i} className="flex flex-col items-center flex-1 min-w-[65px]">
                     <span className="text-[11px] font-medium text-stone-500 whitespace-nowrap">{n.label}</span>
                     <span className={`font-en text-base font-medium ${n.color} whitespace-nowrap`}>
-                      {n.val} <small className="text-[10px] font-normal">{n.unit}</small>
+                      {n.val} <small className="text-[11px] font-normal">{n.unit}</small>
                     </span>
                   </div>
                 ))}
@@ -150,7 +151,7 @@ export default function TodayView({
                         <div className={`w-2.5 h-2.5 rounded-full shadow-lg ${g.color}`}></div>
                         <span className="text-[11px] font-bold text-stone-500">{g.label}</span>
                       </div>
-                      <p className="text-[11px] font-medium text-stone-700 opacity-80 leading-relaxed pl-4.5">
+                      <p className="text-[11px] font-medium text-stone-500 leading-relaxed pl-4.5">
                         {g.items.join('、')}
                       </p>
                     </div>
@@ -159,11 +160,11 @@ export default function TodayView({
               </div>
             </motion.div>
           ) : (
-            <div className="py-20 text-center opacity-40 flex flex-col items-center justify-center space-y-4">
-              <UtensilsCrossed size={48} />
+            <div className="py-20 text-center text-stone-500 flex flex-col items-center justify-center space-y-4">
+              <UtensilsCrossed size={48} className="text-stone-400" />
               <p className="font-bold text-sm">
                 この日は給食がありません<br/>
-                <span className="text-xs font-normal opacity-80 mt-1 block">（または献立未登録）</span>
+                <span className="text-xs font-normal mt-1 block">（または献立未登録）</span>
               </p>
             </div>
           )}

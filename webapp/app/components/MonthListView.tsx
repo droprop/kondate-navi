@@ -41,7 +41,7 @@ export default function MonthListView({
         <button
           onClick={onPrevMonth}
           aria-label="前の月へ"
-          className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-xl"
+          className="p-2 text-orange-500 active:scale-95 transition hover:bg-orange-50 rounded-xl"
         >
           <ChevronLeft size={24} />
         </button>
@@ -51,7 +51,7 @@ export default function MonthListView({
         <button
           onClick={onNextMonth}
           aria-label="次の月へ"
-          className="p-2 text-orange-400 active:scale-95 transition hover:bg-orange-50 rounded-xl"
+          className="p-2 text-orange-500 active:scale-95 transition hover:bg-orange-50 rounded-xl"
         >
           <ChevronRight size={24} />
         </button>
@@ -75,11 +75,11 @@ export default function MonthListView({
                 >
                   <div className="w-10 text-center shrink-0">
                     <div className={`font-en text-xl font-black leading-none ${
-                      m.day_of_week === '土' ? 'text-blue-500' : m.day_of_week === '日' ? 'text-red-500' : 'text-stone-700'
+                      m.day_of_week === '土' ? 'text-blue-600' : m.day_of_week === '日' ? 'text-red-600' : 'text-stone-700'
                     }`}>{m.date}</div>
-                    <div className="text-[10px] font-bold text-stone-500 mt-0.5">{m.day_of_week}</div>
+                    <div className="text-[11px] font-bold text-stone-500 mt-0.5">{m.day_of_week}</div>
                     {isToday && (
-                      <div className="text-[9px] font-bold text-white bg-orange-500 rounded-full px-1.5 py-px mt-1">今日</div>
+                      <div className="text-[10px] font-bold text-white bg-orange-500 rounded-full px-1.5 py-px mt-1">今日</div>
                     )}
                   </div>
                   <div className="flex-1">
@@ -92,15 +92,15 @@ export default function MonthListView({
               );
             })
           ) : (
-            <div className="py-20 text-center opacity-40 space-y-2">
-              <Info size={32} className="mx-auto" />
+            <div className="py-20 text-center text-stone-500 space-y-2">
+              <Info size={32} className="mx-auto text-stone-400" />
               <p className="font-bold text-sm">この月のデータはありません</p>
             </div>
           )}
         </div>
       ) : (
-        <div className="py-20 text-center opacity-40 flex flex-col items-center space-y-3">
-          <School size={32} />
+        <div className="py-20 text-center text-stone-500 flex flex-col items-center space-y-3">
+          <School size={32} className="text-stone-400" />
           <p className="font-bold text-sm">学校を選択するとリストが表示されます</p>
         </div>
       )}
