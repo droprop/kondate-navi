@@ -49,6 +49,28 @@ npm run build
 npx firebase deploy --only hosting
 ```
 
+## 🌐 Hosting の構成（2サイト構成・触る前に読むこと）
+
+`firebase.json` はホスト名でリダイレクトを分岐できないため、Hosting を **2つのサイト**に分けています。上のデプロイコマンドは両方をまとめて反映します。
+
+| ターゲット | サイト | 配信するもの |
+| --- | --- | --- |
+| `app` | `kondateboard` | アプリ本体。`kondateboard.rndesk.com` を割り当て |
+| `legacy` | `kondate-navi` | 旧 `kondate-navi.web.app` / `.firebaseapp.com`。**301 リダイレクトのみ** |
+
+### ⚠️ リダイレクトを消さないこと
+
+2026-08-18 に `kondate-navi.web.app` から `kondateboard.rndesk.com` へサイト移転し、Search Console のアドレス変更ツールで申告済みです。
+
+- **最低180日（2027-02 まで）、できれば1年以上** リダイレクトを維持してください。消すと検索評価の引き継ぎが切れます
+- 旧ドメインを他人に取得されないよう、Firebase プロジェクトごと残しておくこと
+
+### ハマりどころ
+
+- リダイレクトの `source` は Firebase 記法の `/:rest*`。`:splat` は Netlify の記法で **Firebase では動きません**。`/**` はルート直下 `/` に一致しないため `/` を別途明記しています
+- カスタムドメインを付け替えた直後は、CDN（Fastly）に `Site Not Found` が焼き付くことがあります。**再デプロイするとキャッシュが流れます**
+- 検証で `?cb=...` のようなクエリを付けるとキャッシュを回避してしまい、Googlebot が見る素の URL の状態を見落とします。素の URL で確認すること
+
 ## 📊 アクセス解析について
 - **Google Analytics (GA4)** が連携されています。
 - 親御さんがどの月の献立を最も見ているかなどのトラフィック（アクセス数）は、GA4のダッシュボード「レポート > エンゲージメント」等からいつでも確認可能です。
