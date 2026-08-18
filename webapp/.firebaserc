@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "kondate-navi"
+  },
+  "targets": {
+    "kondate-navi": {
+      "hosting": {
+        "app": [
+          "kondateboard"
+        ],
+        "legacy": [
+          "kondate-navi"
+        ]
+      }
+    }
   }
 }

@@ -1,17 +1,36 @@
 {
-  "hosting": {
-    "public": "out",
-    "cleanUrls": true,
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
+  "hosting": [
+    {
+      "target": "app",
+      "public": "out",
+      "cleanUrls": true,
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "legacy",
+      "public": "legacy-redirect",
+      "redirects": [
+        {
+          "source": "/",
+          "destination": "https://kondateboard.rndesk.com/",
+          "type": 301
+        },
+        {
+          "source": "/:rest*",
+          "destination": "https://kondateboard.rndesk.com/:rest",
+          "type": 301
+        }
+      ]
+    }
+  ]
 }
