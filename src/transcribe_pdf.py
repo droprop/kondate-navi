@@ -288,8 +288,8 @@ def transcribe_pdf(pdf_path: Path, model_name: str = "gemini-3.1-pro-preview", p
             ),
         )
 
-    # 最大3.5分(210秒)でタイムアウトさせる
-    TIMEOUT_SECONDS = 210
+    # 最大10分(600秒)でタイムアウトさせる
+    TIMEOUT_SECONDS = 600
     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
         future = executor.submit(_call_api)
         try:
