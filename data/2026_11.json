@@ -54,7 +54,7 @@
       "day_of_week": "水",
       "needs_chopsticks": true,
       "menu_items": [
-        "★🍜 サンマーめん",
+        "★🍚 サンマー丼",
         "🥛 牛乳",
         "🍲 ワンタンスープ",
         "🍇 ぶどうとりんごのゼリーポンチ"
@@ -936,7 +936,7 @@
     {
       "date": 30,
       "day_of_week": "月",
-      "needs_chopsticks": true,
+      "needs_chopsticks": false,
       "menu_items": [
         "📖 <おはなしきゅうしょく>",
         "🍞 食パン",
@@ -2025,7 +2025,7 @@
       "day_of_week": "月",
       "needs_chopsticks": true,
       "menu_items": [
-        "★🍜 サンマーめん",
+        "★🍚 サンマー丼",
         "🥛 牛乳",
         "🥟 ワンタンスープ",
         "🍧 ぶどうとりんごのゼリーポンチ"
@@ -2331,7 +2331,7 @@
     {
       "date": 11,
       "day_of_week": "水",
-      "needs_chopsticks": true,
+      "needs_chopsticks": false,
       "menu_items": [
         "📖 ＜お話給食＞",
         "🍞 食パン",
@@ -2387,7 +2387,7 @@
       "menu_items": [
         "🍚 ごはん",
         "🥛 牛乳",
-        "★🐟 赤魚の磯辺蒸し",
+        "★🐟 赤魚の磯辺揚げ",
         "🥗 わかめサラダ",
         "★🍲 豚肉と豆腐の煮物",
         "🥧 豆乳プリンタルト"
@@ -2602,9 +2602,9 @@
       "day_of_week": "水",
       "needs_chopsticks": false,
       "menu_items": [
-        "★🍛 チキンカレーライス",
+        "★🍛 ハヤシライス",
         "🥛 牛乳",
-        "🥒 きゅうりのかりづけ",
+        "🥒 きゅうりの香りづけ",
         "🍞 お麩のラスク（きなこ味）"
       ],
       "ingredients": {
@@ -2654,7 +2654,7 @@
         "★🐟 いわしの竜田揚げ",
         "🥕 人参ゼリー",
         "🥗 キャベツと小松菜の磯辺和え",
-        "🥣 里芋と大根のそろばんみそ汁"
+        "🥣 里芋と大根のそぼろ味噌汁"
       ],
       "ingredients": {
         "energy_source": [
