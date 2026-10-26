@@ -8,6 +8,7 @@ interface MonthListViewProps {
   currentDate: Date;
   menus: DailyMenu[];
   selectedSchool: string;
+  loading?: boolean;
   onPrevMonth: () => void;
   onNextMonth: () => void;
   onSelectDate: (date: number) => void;
@@ -17,6 +18,7 @@ export default function MonthListView({
   currentDate,
   menus,
   selectedSchool,
+  loading = false,
   onPrevMonth,
   onNextMonth,
   onSelectDate,
@@ -91,6 +93,12 @@ export default function MonthListView({
                 </button>
               );
             })
+          ) : loading ? (
+            <div className="space-y-2" aria-busy="true" aria-label="月間献立を読み込み中">
+              {[...Array(6)].map((_, idx) => (
+                <div key={idx} className="h-16 bg-stone-100 rounded-2xl animate-pulse" />
+              ))}
+            </div>
           ) : (
             <div className="py-20 text-center text-stone-500 space-y-2">
               <Info size={32} className="mx-auto text-stone-400" />

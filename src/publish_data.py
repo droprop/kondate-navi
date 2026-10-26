@@ -21,9 +21,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def main():
-    parser = argparse.ArgumentParser(description="Validates data, copies to frontend, and pushes to Git.")
+    parser = argparse.ArgumentParser(description="Validates data, copies to frontend, pushes to Git, and deploys to Firebase Hosting.")
     parser.add_argument("--year", type=int, required=True, help="Target year")
     parser.add_argument("--month", type=int, required=True, help="Target month")
+    parser.add_argument("--skip-hosting", action="store_true", help="Skip building and deploying Next.js static site to Firebase Hosting")
     args = parser.parse_args()
 
     target_year = args.year
@@ -70,15 +71,34 @@ def main():
         # Stage changes
         # 最終的なWeb用JSONデータのみをGit管理し、PDFや中間処理結果は除外する
         subprocess.run(["git", "add", "data", "webapp/public/data"], check=True)
-        # Commit
-        commit_msg = f"auto: update lunch data for {target_year}-{target_month}"
-        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
-        # Push
-        subprocess.run(["git", "push", "origin", "main"], check=True)
-        logger.info("Successfully pushed updates to GitHub.")
+        diff_check = subprocess.run(["git", "diff", "--cached", "--quiet"])
+        if diff_check.returncode != 0:
+            # Commit
+            commit_msg = f"auto: update lunch data for {target_year}-{target_month}"
+            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            # Push
+            subprocess.run(["git", "push", "origin", "main"], check=True)
+            logger.info("Successfully pushed updates to GitHub.")
+        else:
+            logger.info("No new changes in data/ to commit. Skipping git commit & push.")
     except subprocess.CalledProcessError as e:
         logger.error(f"Git synchronization failed: {e}")
         sys.exit(1)
+
+    # Step 4: Build & Deploy Next.js static site (including /archive/YYYY-M and sitemap.xml) to Firebase Hosting
+    if not args.skip_hosting:
+        logger.info("Building Next.js static pages (including monthly SEO archives & sitemap)...")
+        webapp_dir = os.path.join(BASE_DIR, "webapp")
+        npm_cmd = "npm.cmd" if os.name == "nt" else "npm"
+        npx_cmd = "npx.cmd" if os.name == "nt" else "npx"
+        try:
+            subprocess.run([npm_cmd, "run", "build"], cwd=webapp_dir, check=True)
+            logger.info("Deploying static site to Firebase Hosting...")
+            subprocess.run([npx_cmd, "firebase", "deploy", "--only", "hosting"], cwd=webapp_dir, check=True)
+            logger.info("Successfully deployed updated site and archives to Firebase Hosting.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Firebase Hosting build/deploy failed: {e}")
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()

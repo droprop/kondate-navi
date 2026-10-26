@@ -4,7 +4,7 @@
  * - 献立JSON (/data/*.json) はアプリ側の localStorage キャッシュ（SWR方式）に任せ、SWでは触らない
  * - キャッシュ戦略を変えたら CACHE_VERSION を上げること（古いキャッシュは activate 時に削除される）
  */
-const CACHE_VERSION = 'kondate-shell-v1';
+const CACHE_VERSION = 'kondate-shell-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

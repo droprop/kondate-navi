@@ -8,6 +8,7 @@ interface TodayViewProps {
   currentDate: Date;
   displayMenu: DailyMenu | undefined;
   selectedSchool: string;
+  loading?: boolean;
   onPrevDay: () => void;
   onNextDay: () => void;
 }
@@ -16,6 +17,7 @@ export default function TodayView({
   currentDate,
   displayMenu,
   selectedSchool,
+  loading = false,
   onPrevDay,
   onNextDay,
 }: TodayViewProps) {
@@ -31,21 +33,32 @@ export default function TodayView({
           <ChevronLeft size={28} />
         </button>
         <div className="text-center flex flex-col items-center">
-          <div className="font-en text-[11px] font-black text-stone-500 uppercase tracking-widest leading-none mb-1">
+          <div
+            suppressHydrationWarning
+            className="font-en text-[11px] font-black text-stone-500 uppercase tracking-widest leading-none mb-1"
+          >
             {currentDate.getFullYear()} / {currentDate.getMonth() + 1}
           </div>
           <div className="flex items-baseline gap-1">
-            <div className="font-en text-4xl font-black text-stone-800 tracking-tighter leading-none">
+            <div
+              suppressHydrationWarning
+              className="font-en text-4xl font-black text-stone-800 tracking-tighter leading-none"
+            >
               {currentDate.getDate()}
             </div>
             <span className="text-lg font-bold text-stone-800">日</span>
           </div>
-          <div className={`text-sm font-bold px-3 py-0.5 rounded-full shadow-sm mt-1.5 border ${
-            currentDate.getDay() === 0 ? 'bg-red-50 text-red-600 border-red-100' :
-            currentDate.getDay() === 6 ? 'bg-blue-50 text-blue-600 border-blue-100' :
-            'bg-orange-50 text-orange-600 border-orange-100'
-          }`}>
-            {currentDate.toLocaleDateString('ja-JP', { weekday: 'short' })}曜日
+          <div
+            suppressHydrationWarning
+            className={`text-sm font-bold px-3 py-0.5 rounded-full shadow-sm mt-1.5 border ${
+              currentDate.getDay() === 0
+                ? 'bg-red-50 text-red-600 border-red-100'
+                : currentDate.getDay() === 6
+                ? 'bg-blue-50 text-blue-600 border-blue-100'
+                : 'bg-orange-50 text-orange-600 border-orange-100'
+            }`}
+          >
+            {['日', '月', '火', '水', '木', '金', '土'][currentDate.getDay()]}曜日
           </div>
         </div>
         <button
@@ -159,6 +172,13 @@ export default function TodayView({
                 </div>
               </div>
             </motion.div>
+          ) : loading ? (
+            <div className="space-y-4" aria-busy="true" aria-label="献立データを読み込み中">
+              <div className="h-11 bg-stone-100 rounded-2xl animate-pulse" />
+              <div className="h-64 bg-stone-100 rounded-3xl animate-pulse" />
+              <div className="h-16 bg-stone-100 rounded-2xl animate-pulse" />
+              <div className="h-40 bg-stone-100 rounded-3xl animate-pulse" />
+            </div>
           ) : (
             <div className="py-20 text-center text-stone-500 flex flex-col items-center justify-center space-y-4">
               <UtensilsCrossed size={48} className="text-stone-400" />

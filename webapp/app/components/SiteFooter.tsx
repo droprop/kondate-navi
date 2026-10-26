@@ -23,14 +23,23 @@ export default function SiteFooter() {
       </p>
       <p className="text-[11px] font-medium text-stone-600">
         保護者が運営する、浦安市の非公式アプリです。
-        {/* /about への導線。ユーザーの入口であると同時に、クローラーの巡回経路にもなる */}
+      </p>
+      {/* /about および /archive への導線。ユーザーの入口であると同時に、クローラーの巡回経路にもなる */}
+      <nav aria-label="サイト案内リンク" className="flex items-center justify-center gap-3 text-[11px]">
         <Link
           href="/about"
-          className="ml-1.5 font-bold underline decoration-stone-400 underline-offset-2 hover:text-orange-600"
+          className="font-bold text-stone-600 underline decoration-stone-400 underline-offset-2 hover:text-orange-600"
         >
-          このアプリについて
+          このアプリについて・対応校
         </Link>
-      </p>
+        <span className="text-stone-300" aria-hidden="true">|</span>
+        <Link
+          href="/archive"
+          className="font-bold text-stone-600 underline decoration-stone-400 underline-offset-2 hover:text-orange-600"
+        >
+          月別の献立一覧
+        </Link>
+      </nav>
       <a
         href="https://forms.gle/tWGr4133CAUkTfdLA"
         target="_blank"

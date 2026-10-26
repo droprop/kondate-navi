@@ -32,7 +32,7 @@ python src\run_pipeline.py --year 2026 --month 4 --push
 2. AI（Gemini）と画像解析（OpenCV）で「主菜・メニュー・食材・お箸の有無」をJSON抽出
 3. `enrich_menu.py` により絵文字を自動付与し、重要メニュー（★）を最上位へソート
 4. `validate_data.py` で品質検証（曜日と暦の整合・空メニュー・日付重複・栄養値の妥当性・牛乳/★主菜/箸フラグの健全性）。重大なエラーがあれば公開を中止
-5. 完成したJSONを GitHub Pages の公開ディレクトリへ反映（アプリは自動更新されます）
+5. 完成したJSONを GitHub Pages の公開ディレクトリへ反映し、同時に Next.js の静的ページ（月別アーカイブ `/archive/YYYY-M` や `sitemap.xml` を含む）を再ビルドして Firebase Hosting へ自動デプロイします。
 
 スクリプトが「Pipeline Processing Complete」と表示したら運用完了です。
 [浦安市の給食献立 - こんだてボード](https://kondateboard.rndesk.com/) で最新の年月が表示されるか確認してください。

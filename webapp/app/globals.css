@@ -31,6 +31,12 @@ html, body, .custom-scrollbar {
   scrollbar-width: thin;
 }
 
+/* 画面外の重いセクションのレンダリング遅延（Core Web Vitals 最適化） */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 600px;
+}
+
 /* お箸アラート用バウンス（無限ループにせず3回で止める） */
 @keyframes chopstick-bounce {
   0%, 100% { transform: translateY(0); }

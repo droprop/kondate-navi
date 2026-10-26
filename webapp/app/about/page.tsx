@@ -72,8 +72,45 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 }
 
 export default function AboutPage() {
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: '浦安市の給食献立 - こんだてボード',
+          item: `${SITE_URL}/`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'こんだてボードについて',
+          item: `${SITE_URL}/about`,
+        },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQ.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a,
+        },
+      })),
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-stone-800 pb-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="bg-white/95 backdrop-blur-md border-b border-stone-100 px-4 py-3 sticky top-0 z-30 shadow-sm">
         <div className="max-w-md mx-auto flex items-center gap-2">
           <Link
@@ -169,13 +206,19 @@ export default function AboutPage() {
           ))}
         </Card>
 
-        <div className="pt-2 text-center">
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-stone-200 shadow-sm rounded-full text-sm font-bold text-stone-600 hover:text-orange-600 hover:border-orange-200 transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-orange-500 border border-orange-500 shadow-sm rounded-full text-sm font-bold text-white hover:bg-orange-600 transition-all active:scale-95"
           >
             <ChevronLeft size={16} />
-            <span>献立をみる</span>
+            <span>今日の献立をみる</span>
+          </Link>
+          <Link
+            href="/archive"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-stone-200 shadow-sm rounded-full text-sm font-bold text-stone-600 hover:text-orange-600 hover:border-orange-200 transition-all active:scale-95"
+          >
+            <span>月別の献立一覧をみる</span>
           </Link>
         </div>
       </main>
