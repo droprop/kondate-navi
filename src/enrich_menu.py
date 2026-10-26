@@ -122,7 +122,7 @@ def enrich_json(client, model_name: str, source_json_str: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description="生JSONをVertex AIでリッチ化（絵文字/主菜フラグ付与）します。")
-    parser.add_argument("--model", type=str, default="gemini-3.1-pro-preview", help="Geminiモデル名")
+    parser.add_argument("--model", type=str, default="gemini-3.8-flash", help="Geminiモデル名")
     parser.add_argument("--project", type=str, default="argon-tuner-349921", help="GCPプロジェクトID")
     parser.add_argument("--location", type=str, default="global", help="リージョン")
     parser.add_argument("--year", type=int, help="処理対象の年")
@@ -189,9 +189,22 @@ def main():
             # パースして検証
             parsed = json.loads(enriched_str)
             
+            # 生データ（raw）をベースとし、AIが生成した menu_items のみ安全にマージする
+            # （AIによる曜日や栄養価、日付などの予期せぬ書き換えを防止）
+            raw_data = json.loads(source_json_str)
+            enriched_items_by_date = {}
+            for daily in parsed.get("daily_menus", []):
+                if "date" in daily and "menu_items" in daily:
+                    enriched_items_by_date[daily["date"]] = daily["menu_items"]
+
+            for daily in raw_data.get("daily_menus", []):
+                d = daily.get("date")
+                if d in enriched_items_by_date:
+                    daily["menu_items"] = enriched_items_by_date[d]
+
             # 結果を出力先 (results ディレクトリ等) に保存
             with open(out_path, "w", encoding="utf-8") as f:
-                json.dump(parsed, f, ensure_ascii=False, indent=2)
+                json.dump(raw_data, f, ensure_ascii=False, indent=2)
                 
             logger.info(f"完了: {out_path.name} に絵文字と主菜フラグを付与し、 {out_path} に保存しました。")
             

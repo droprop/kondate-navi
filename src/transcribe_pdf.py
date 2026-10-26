@@ -152,7 +152,7 @@ def detect_chopsticks_mapping(pdf_path: Path) -> dict:
     logger.info(f"[{pdf_path.name}] 画像解析完了: {len(date_needs_chopsticks)}日分のお箸フラグを抽出しました。")
     return date_needs_chopsticks
 
-def transcribe_pdf(pdf_path: Path, model_name: str = "gemini-3.1-pro-preview", project_id: str | None = None, location: str = "global") -> str:
+def transcribe_pdf(pdf_path: Path, model_name: str = "gemini-3.8-flash", project_id: str | None = None, location: str = "global") -> str:
     """Gemini APIを使用してPDFから構造化データを抽出する"""
     
     # Vertex AI の場合
@@ -308,8 +308,8 @@ def transcribe_pdf(pdf_path: Path, model_name: str = "gemini-3.1-pro-preview", p
 
 def main():
     parser = argparse.ArgumentParser(description="PDF献立表からGemini APIでデータを構造化抽出します。")
-    parser.add_argument("--model", type=str, default="gemini-3.1-pro-preview", 
-                        help="使用するGeminiのモデル名 (デフォルト: gemini-3.1-pro-preview)")
+    parser.add_argument("--model", type=str, default="gemini-3.8-flash", 
+                        help="使用するGeminiのモデル名 (デフォルト: gemini-3.8-flash)")
     parser.add_argument("--pdf", type=str, 
                         help="特定のPDFファイルを指定する場合のパス (指定がない場合はdownloadsから全取得して未処理のものを実行)")
     parser.add_argument("--output-dir", type=str, default="raw_results",
